@@ -1,448 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>CJP Report — India's Civic Revolution 🪳</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --black: #0A0A0A;
-      --lime: #D9FF00;
-      --gold: #FFB800;
-      --red: #FF3B30;
-      --blue: #00D1FF;
-      --white: #F2F2F2;
-      --gray: #8B8B8B;
-      --dark-gray: #1A1A1A;
-      --card-bg: #131313;
+      --bg: #050505;
+      --card: #111111;
+      --card2: #181818;
+      --border: rgba(255,107,0,0.15);
+      --border2: rgba(255,255,255,0.07);
+      --orange: #ff6b00;
+      --amber: #ffb300;
+      --red: #ff3b30;
+      --green: #00d26a;
+      --text: #f0ebe3;
+      --sub: #7a7570;
+      --white: #ffffff;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { font-size: 16px; }
-    body { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      padding-bottom: 100px;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px;overflow-x:hidden}
 
     /* SPLASH */
-    .splash {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, var(--black) 0%, #1a1a2e 100%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      transition: opacity 0.6s ease;
-    }
-    .splash.hide { opacity: 0; pointer-events: none; }
-    .splash-logo { font-size: 96px; animation: splashPulse 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    @keyframes splashPulse { 0% { transform: scale(0); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-    .splash-title { font-size: 32px; font-weight: 800; color: var(--lime); letter-spacing: 2px; font-family: 'Poppins'; text-align: center; }
-    .splash-msg { font-size: 14px; color: var(--gold); text-align: center; padding: 0 32px; line-height: 1.6; font-style: italic; }
-    .splash-sub { font-size: 11px; color: var(--gray); text-align: center; margin-top: 16px; }
+    .splash{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.6s}
+    .splash.hide{opacity:0;pointer-events:none}
+    .splash-roach{font-size:90px;animation:roachPop 0.8s cubic-bezier(0.34,1.56,0.64,1)}
+    @keyframes roachPop{0%{transform:scale(0) rotate(-20deg)}100%{transform:scale(1) rotate(0deg)}}
+    .splash-title{font-family:'Poppins';font-size:30px;font-weight:900;color:var(--white);letter-spacing:3px;text-align:center}
+    .splash-glow{color:var(--orange);text-shadow:0 0 30px rgba(255,107,0,0.8)}
+    .splash-msg{font-size:14px;color:var(--amber);font-style:italic;text-align:center;padding:0 28px;line-height:1.6;border-left:3px solid var(--orange);padding-left:16px}
+    .splash-sub{font-size:11px;color:var(--sub);text-align:center}
+    .splash-bar{width:140px;height:3px;background:#222;border-radius:3px;overflow:hidden}
+    .splash-fill{height:3px;background:linear-gradient(90deg,var(--orange),var(--amber));animation:splashLoad 2.2s ease forwards}
+    @keyframes splashLoad{0%{width:0}100%{width:100%}}
 
-    /* MANIFESTO MODAL */
-    .manifesto-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 500; align-items: center; justify-content: center; }
-    .manifesto-modal.open { display: flex; }
-    .manifesto-content { background: var(--card-bg); border: 2px solid var(--lime); border-radius: 24px; padding: 32px 24px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
-    .manifesto-close { position: absolute; top: 20px; right: 20px; background: var(--lime); color: var(--black); border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; font-weight: 800; }
-    .manifesto-title { font-size: 28px; font-weight: 800; color: var(--lime); margin-bottom: 20px; text-align: center; font-family: 'Poppins'; }
-    .manifesto-section { margin-bottom: 24px; }
-    .manifesto-section-title { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-    .manifesto-text { font-size: 13px; line-height: 1.7; color: var(--white); }
-    .manifesto-list { list-style: none; margin-left: 12px; }
-    .manifesto-list li { font-size: 13px; color: var(--white); margin-bottom: 8px; padding-left: 24px; position: relative; line-height: 1.6; }
-    .manifesto-list li::before { content: '▸'; position: absolute; left: 0; color: var(--lime); font-weight: 800; }
-
-    /* ROACHING */
-    .roach { position: fixed; font-size: 24px; pointer-events: none; z-index: 100; opacity: 0.4; }
-    @keyframes roachWalk { 0% { transform: translateX(-50px) rotate(0deg); } 100% { transform: translateX(calc(100vw + 50px)) rotate(8deg); } }
-    .roach.walking { animation: roachWalk linear infinite; }
+    /* ROACHES */
+    .roach{position:fixed;pointer-events:none;z-index:50;opacity:0.2;animation:roachWalk linear infinite}
+    @keyframes roachWalk{0%{transform:translateX(-60px)}100%{transform:translateX(calc(100vw + 60px))}}
 
     /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--dark-gray);
-      color: var(--lime);
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 12px;
-      font-weight: 600;
-      z-index: 400;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-      border: 1px solid var(--lime);
-      max-width: 85vw;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(217, 255, 0, 0.2);
-    }
-    .toast.show { opacity: 1; }
+    .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--card2);color:var(--amber);padding:12px 22px;border-radius:24px;font-size:12px;font-weight:600;z-index:300;opacity:0;transition:opacity 0.4s;pointer-events:none;border:1px solid rgba(255,179,0,0.3);max-width:88vw;text-align:center;line-height:1.5;box-shadow:0 8px 32px rgba(255,107,0,0.15)}
+    .toast.show{opacity:1}
 
     /* TOPBAR */
-    .topbar {
-      background: linear-gradient(180deg, var(--black) 0%, rgba(10, 10, 10, 0.95) 100%);
-      padding: 14px 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(217, 255, 0, 0.1);
-      backdrop-filter: blur(10px);
-    }
-    .topbar-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 10px; }
-    .logo-wrap { display: flex; align-items: center; gap: 10px; flex: 1; }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--lime), var(--gold)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 16px rgba(217, 255, 0, 0.3); }
-    .logo-text { font-size: 16px; font-weight: 800; color: var(--white); font-family: 'Poppins'; letter-spacing: 0.5px; }
-    .logo-sub { font-size: 9px; color: var(--lime); letter-spacing: 1px; margin-top: 2px; text-transform: uppercase; font-weight: 700; }
-    .topbar-buttons { display: flex; gap: 8px; }
-    .report-btn {
-      background: linear-gradient(135deg, var(--lime), var(--gold));
-      color: var(--black);
-      border: none;
-      padding: 10px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(217, 255, 0, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .report-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 255, 0, 0.4); }
-    .report-btn:active { transform: scale(0.98); }
-    .manifesto-btn {
-      background: transparent;
-      border: 1px solid var(--lime);
-      color: var(--lime);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .manifesto-btn:hover { background: var(--lime); color: var(--black); }
-
-    /* SEARCH */
-    .search-wrap { position: relative; margin-bottom: 12px; }
-    .search-input {
-      width: 100%;
-      padding: 11px 16px 11px 44px;
-      border: 1px solid rgba(217, 255, 0, 0.2);
-      border-radius: 24px;
-      font-size: 13px;
-      background: var(--dark-gray);
-      color: var(--white);
-      outline: none;
-      transition: all 0.3s ease;
-      font-family: 'Inter';
-    }
-    .search-input::placeholder { color: var(--gray); }
-    .search-input:focus { border-color: var(--lime); box-shadow: 0 0 16px rgba(217, 255, 0, 0.2); }
-    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray); }
-
-    /* STATS BAR */
-    .stats-bar {
-      padding: 12px 16px;
-      background: var(--dark-gray);
-      border-bottom: 1px solid rgba(217, 255, 0, 0.1);
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .stats-bar::-webkit-scrollbar { display: none; }
-    .stat-item { display: flex; flex-direction: column; align-items: center; white-space: nowrap; }
-    .stat-num { font-size: 18px; font-weight: 800; color: var(--lime); }
-    .stat-label { font-size: 9px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .topbar{background:rgba(5,5,5,0.95);padding:12px 14px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+    .topbar-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px}
+    .logo-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--orange),var(--amber));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 16px rgba(255,107,0,0.4)}
+    .logo-text{font-family:'Poppins';font-size:15px;font-weight:900;color:var(--white)}
+    .logo-sub{font-size:9px;color:var(--orange);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+    .top-search{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:24px;background:var(--card);color:var(--text);font-size:13px;outline:none;font-family:'Inter'}
+    .top-search::placeholder{color:var(--sub)}
+    .top-search:focus{border-color:var(--orange)}
+    .top-btns{display:flex;gap:7px;flex-shrink:0}
+    .manifesto-btn{background:transparent;border:1px solid var(--border);color:var(--sub);padding:7px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+    .manifesto-btn:hover{border-color:var(--orange);color:var(--orange)}
+    .top-report-btn{background:var(--orange);color:var(--white);border:none;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 0 16px rgba(255,107,0,0.4);white-space:nowrap}
+    .top-report-btn:active{transform:scale(0.97)}
 
     /* TABS */
-    .tabs { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid rgba(217, 255, 0, 0.1); }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex-shrink: 0;
-      padding: 12px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gray);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .tab.active {
-      color: var(--lime);
-      border-bottom-color: var(--lime);
-    }
-    .tab:hover { color: var(--white); }
+    .tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border2)}
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{flex-shrink:0;padding:10px 16px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
+    .tab.active{color:var(--orange);border-bottom-color:var(--orange)}
+
+    /* TICKER */
+    .ticker-wrap{background:rgba(255,107,0,0.06);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:10px;overflow:hidden}
+    .ticker-live{font-size:9px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+    .ticker-dot{width:6px;height:6px;background:var(--orange);border-radius:50%;animation:blink 1s infinite;box-shadow:0 0 6px var(--orange)}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+    .ticker-track{overflow:hidden;flex:1}
+    .ticker-inner{display:flex;gap:40px;animation:tickerMove 25s linear infinite;white-space:nowrap}
+    @keyframes tickerMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .ticker-inner:hover{animation-play-state:paused}
+    .ticker-item{font-size:12px;color:var(--sub);flex-shrink:0}
+    .ticker-item span{color:var(--amber);font-weight:600}
+
+    /* STATS */
+    .stats-bar{display:flex;background:var(--card);border-bottom:1px solid var(--border2)}
+    .stat-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 6px;border-right:1px solid var(--border2)}
+    .stat-item:last-child{border-right:none}
+    .stat-num{font-family:'Poppins';font-size:22px;font-weight:900;color:var(--orange);text-shadow:0 0 20px rgba(255,107,0,0.4)}
+    .stat-label{font-size:9px;color:var(--sub);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+
+    /* HERO */
+    .hero{padding:36px 20px 32px;background:linear-gradient(180deg,rgba(255,107,0,0.08) 0%,var(--bg) 100%);border-bottom:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(255,107,0,0.12) 0%,transparent 70%);pointer-events:none}
+    .hero-eye{font-size:10px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
+    .hero-title{font-family:'Poppins';font-size:26px;font-weight:900;color:var(--white);line-height:1.2;margin-bottom:14px}
+    .hero-title span{color:var(--orange);text-shadow:0 0 20px rgba(255,107,0,0.5)}
+    .hero-sub{font-size:14px;color:var(--sub);line-height:1.8;margin-bottom:24px;max-width:340px;margin-left:auto;margin-right:auto}
+    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .hero-btn-primary{background:var(--orange);color:var(--white);border:none;padding:14px 28px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 0 24px rgba(255,107,0,0.5);transition:all 0.2s;font-family:'Poppins'}
+    .hero-btn-primary:active{transform:scale(0.97)}
+    .hero-btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange);padding:14px 24px;border-radius:14px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s}
+    .hero-btn-secondary:active{background:rgba(255,107,0,0.1)}
 
     /* TRENDING */
-    .trending-wrap {
-      padding: 14px 16px;
-      background: rgba(255, 184, 0, 0.05);
-      border-bottom: 1px solid rgba(217, 255, 0, 0.1);
-    }
-    .trending-label { font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-    .trending-tags { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
-    .trending-tags::-webkit-scrollbar { display: none; }
-    .htag {
-      background: var(--dark-gray);
-      border: 1px solid rgba(217, 255, 0, 0.2);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px;
-      color: var(--white);
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-    }
-    .htag:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-2px); }
-    .htag.hot { background: linear-gradient(135deg, var(--gold), var(--lime)); color: var(--black); font-weight: 800; }
+    .trending-wrap{padding:14px 14px;border-bottom:1px solid var(--border2)}
+    .section-label{font-size:10px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .trending-tags{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+    .trending-tags::-webkit-scrollbar{display:none}
+    .htag{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;cursor:pointer;transition:all 0.2s;flex-shrink:0}
+    .htag:active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+    .htag.hot{border-color:rgba(255,107,0,0.5);color:var(--amber)}
+
+    /* HEATMAP */
+    .heatmap-section{padding:20px 14px;border-bottom:1px solid var(--border2);background:var(--card)}
+    .heatmap-sub{font-size:12px;color:var(--sub);margin-bottom:16px;line-height:1.5}
+    .heatmap-container{position:relative;width:100%;max-width:400px;margin:0 auto}
+    .india-map{width:100%;height:auto}
+    .state-path{cursor:pointer;transition:all 0.3s;stroke:#333;stroke-width:0.5}
+    .state-path:hover{stroke:var(--orange);stroke-width:1.5;filter:brightness(1.3)}
+    .map-tooltip{position:absolute;background:var(--card2);border:1px solid var(--orange);border-radius:10px;padding:10px 14px;font-size:12px;pointer-events:none;z-index:200;display:none;min-width:160px;box-shadow:0 8px 24px rgba(255,107,0,0.2)}
+    .map-tooltip-title{font-weight:700;color:var(--white);margin-bottom:6px;font-size:13px}
+    .map-tooltip-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:3px}
+    .map-tooltip-label{color:var(--sub)}
+    .map-tooltip-val{color:var(--amber);font-weight:600}
+    .heatmap-legend{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+    .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sub)}
+    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+    /* PRESSURE METER */
+    .pressure-section{padding:20px 14px;border-bottom:1px solid var(--border2)}
+    .pressure-meter-wrap{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--border)}
+    .pressure-bar-bg{background:#1a1a1a;border-radius:8px;height:12px;overflow:hidden;margin:12px 0}
+    .pressure-bar-fill{background:linear-gradient(90deg,var(--orange),var(--amber));height:12px;border-radius:8px;box-shadow:0 0 12px rgba(255,107,0,0.5);transition:width 1s ease}
+    .pressure-pct{font-family:'Poppins';font-size:28px;font-weight:900;color:var(--orange);text-shadow:0 0 20px rgba(255,107,0,0.4)}
+    .pressure-text{font-size:13px;color:var(--sub);margin-top:4px}
+
+    /* RESPONSE TRACKER */
+    .tracker-section{padding:20px 14px;border-bottom:1px solid var(--border2)}
+    .tracker-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .tracker-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px;text-align:center}
+    .tracker-card-icon{font-size:24px;margin-bottom:6px}
+    .tracker-card-val{font-family:'Poppins';font-size:20px;font-weight:800;color:var(--orange)}
+    .tracker-card-label{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4}
+
+    /* RESOLVED */
+    .resolved-section{padding:20px 14px;border-bottom:1px solid var(--border2)}
+    .resolved-card{background:var(--card);border:1px solid rgba(0,210,106,0.2);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;border-left:4px solid var(--green)}
+    .resolved-icon{font-size:24px;flex-shrink:0}
+    .resolved-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:4px}
+    .resolved-meta{font-size:11px;color:var(--green);font-weight:600}
 
     /* FEED */
-    .feed { max-width: 520px; margin: 0 auto; padding: 16px 12px; display: flex; flex-direction: column; gap: 14px; }
+    .feed-section{padding:0 12px}
+    .feed{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px;padding:14px 0}
 
-    /* QUOTE CARD */
-    .quote-card {
-      background: linear-gradient(135deg, rgba(217, 255, 0, 0.1), rgba(255, 184, 0, 0.05));
-      border: 1px solid rgba(217, 255, 0, 0.2);
-      border-radius: 16px;
-      padding: 18px;
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--white);
-      border-left: 4px solid var(--lime);
-      backdrop-filter: blur(10px);
-    }
-    .quote-card strong { color: var(--lime); font-weight: 800; }
+    /* SKELETON */
+    .skeleton-card{background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--border2);padding:16px}
+    .skel{background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;margin-bottom:10px}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* QUOTE */
+    .quote-card{background:var(--card);border-radius:16px;padding:18px;font-size:13px;line-height:1.8;color:var(--text);border-left:4px solid var(--orange)}
+    .quote-card strong{color:var(--amber);font-style:normal}
+
+    /* STREAK */
+    .streak-banner{background:var(--card);border:1px solid rgba(255,179,0,0.2);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);font-weight:600}
 
     /* REPORT CARD */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid rgba(217, 255, 0, 0.1);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    }
-    .card:hover { border-color: var(--lime); box-shadow: 0 8px 32px rgba(217, 255, 0, 0.15); }
-    .card-header { padding: 14px 16px 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .poster-info { flex: 1; }
-    .poster-name { font-size: 14px; font-weight: 700; color: var(--white); }
-    .poster-loc { font-size: 12px; color: var(--gray); margin-top: 3px; }
-    .poster-level { font-size: 10px; color: var(--gold); font-weight: 700; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .badges-wrap { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
-    .badge { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .badge-unresolved { background: var(--red); color: white; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-    .badge-mass { background: var(--blue); color: white; }
-    .card-img { width: 100%; height: 220px; object-fit: cover; display: block; background: var(--dark-gray); }
-    .card-img-placeholder { width: 100%; height: 120px; background: linear-gradient(135deg, var(--dark-gray), #1a1a1a); display: flex; align-items: center; justify-content: center; color: var(--gray); font-size: 12px; }
-    .issue-tag { font-size: 11px; font-weight: 700; padding: 4px 12px; margin: 12px 16px 0; border-radius: 8px; display: inline-block; background: rgba(255, 184, 0, 0.15); color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; }
-    .caption { padding: 10px 16px; font-size: 14px; line-height: 1.6; color: var(--white); }
-    .hashtags { padding: 0 16px 6px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .htag-inline { font-size: 12px; color: var(--blue); font-weight: 600; cursor: pointer; }
-    .tags { padding: 0 16px 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { font-size: 11px; color: var(--blue); background: rgba(0, 209, 255, 0.1); padding: 4px 10px; border-radius: 6px; }
-    .pressure-meter { padding: 0 16px 10px; }
-    .pressure-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .pressure-bar { background: var(--dark-gray); border-radius: 8px; height: 6px; overflow: hidden; }
-    .pressure-fill { background: linear-gradient(90deg, var(--red), var(--gold), var(--lime)); height: 6px; transition: width 0.3s ease; }
-    .redline-wrap { height: 3px; background: var(--dark-gray); }
-    .redline { height: 3px; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width 0.3s ease; }
-    .card-footer { padding: 10px 16px; border-top: 1px solid rgba(217, 255, 0, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .reactions { display: flex; gap: 6px; flex-wrap: wrap; }
-    .reaction-btn {
-      background: var(--dark-gray);
-      border: 1px solid rgba(217, 255, 0, 0.2);
-      border-radius: 20px;
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--white);
-      transition: all 0.3s ease;
-      font-weight: 600;
-    }
-    .reaction-btn:hover { border-color: var(--lime); color: var(--lime); }
-    .reaction-btn.reacted { background: var(--lime); border-color: var(--lime); color: var(--black); font-weight: 800; }
-    .days { font-size: 11px; color: var(--red); font-weight: 700; }
-    .comment-btn { background: transparent; border: 1px solid rgba(217, 255, 0, 0.2); color: var(--gray); border-radius: 20px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
-    .comment-btn:hover { border-color: var(--blue); color: var(--blue); }
-    .share-btn { background: transparent; border: 1px solid rgba(217, 255, 0, 0.2); color: var(--gray); border-radius: 20px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
-    .share-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .card{background:var(--card);border:1px solid var(--border2);border-radius:20px;overflow:hidden;transition:all 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+    .card:hover{border-color:rgba(255,107,0,0.3);box-shadow:0 8px 32px rgba(255,107,0,0.1);transform:translateY(-2px)}
+    .card-header{padding:14px 16px 10px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+    .poster-info{flex:1;min-width:0}
+    .poster-name{font-size:14px;font-weight:700;color:var(--white)}
+    .poster-loc{font-size:12px;color:var(--sub);margin-top:3px}
+    .poster-level{font-size:10px;color:var(--amber);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+    .badges-col{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+    .badge{font-size:9px;font-weight:800;padding:4px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+    .badge-unresolved{background:var(--red);color:white;animation:pulseBadge 2s infinite}
+    @keyframes pulseBadge{0%,100%{opacity:1}50%{opacity:0.7}}
+    .badge-mass{background:var(--orange);color:white;box-shadow:0 0 8px rgba(255,107,0,0.5)}
+    .badge-evidence{background:var(--green);color:white}
+    .card-img{width:100%;height:220px;object-fit:cover;display:block;background:var(--card2)}
+    .card-no-img{width:100%;height:80px;background:var(--card2);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:12px;gap:6px}
+    .issue-tag{font-size:11px;font-weight:700;padding:4px 12px;margin:12px 16px 0;border-radius:6px;display:inline-block;background:rgba(255,107,0,0.12);color:var(--orange);text-transform:uppercase;letter-spacing:0.5px}
+    .caption{padding:10px 16px 8px;font-size:14px;line-height:1.6;color:var(--text)}
+    .hashtags{padding:0 16px 6px;display:flex;flex-wrap:wrap;gap:6px}
+    .htag-inline{font-size:12px;color:var(--amber);font-weight:600;cursor:pointer}
+    .tags{padding:0 16px 10px;display:flex;flex-wrap:wrap;gap:6px}
+    .tag{font-size:11px;color:var(--orange);background:rgba(255,107,0,0.1);padding:3px 10px;border-radius:6px}
+    .redline-wrap{height:3px;background:var(--card2)}
+    .redline{height:3px;background:linear-gradient(90deg,var(--red),var(--orange))}
+    .pressure-row{padding:8px 16px;display:flex;align-items:center;gap:10px}
+    .pressure-mini-track{flex:1;background:var(--card2);border-radius:4px;height:4px;overflow:hidden}
+    .pressure-mini-fill{height:4px;background:linear-gradient(90deg,var(--red),var(--amber));border-radius:4px}
+    .pressure-mini-label{font-size:10px;color:var(--sub);white-space:nowrap}
+    .card-footer{padding:10px 16px 12px;border-top:1px solid var(--border2);display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+    .reactions{display:flex;gap:6px;flex-wrap:wrap}
+    .reaction-btn{background:var(--card2);border:1px solid var(--border2);border-radius:20px;padding:6px 10px;font-size:12px;cursor:pointer;color:var(--sub);transition:all 0.2s;font-weight:600;display:flex;align-items:center;gap:4px}
+    .reaction-btn:active{transform:scale(0.95)}
+    .reaction-btn.reacted{background:var(--orange);border-color:var(--orange);color:var(--white);box-shadow:0 0 10px rgba(255,107,0,0.3)}
+    .days-badge{font-size:10px;color:var(--red);font-weight:700}
+    .card-action-btns{display:flex;gap:6px}
+    .action-btn{background:transparent;border:1px solid var(--border2);color:var(--sub);border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer;transition:all 0.2s}
+    .action-btn:active{border-color:var(--orange);color:var(--orange)}
 
-    /* COMMENTS SECTION */
-    .comments-section { padding: 12px 16px; border-top: 1px solid rgba(217, 255, 0, 0.1); }
-    .comments-label { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .comment { background: var(--dark-gray); border-radius: 12px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
-    .comment-author { font-weight: 700; color: var(--lime); margin-bottom: 2px; }
-    .comment-text { color: var(--white); line-height: 1.5; }
-    .comment-time { font-size: 10px; color: var(--gray); margin-top: 4px; }
-    .comment-input-wrap { display: flex; gap: 6px; margin-top: 10px; }
-    .comment-input { flex: 1; background: var(--dark-gray); border: 1px solid rgba(217, 255, 0, 0.2); border-radius: 12px; padding: 8px 12px; color: var(--white); font-size: 12px; outline: none; }
-    .comment-input::placeholder { color: var(--gray); }
-    .comment-submit { background: var(--lime); color: var(--black); border: none; border-radius: 12px; padding: 8px 16px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    /* COMMENTS */
+    .comments-wrap{padding:12px 16px;border-top:1px solid var(--border2)}
+    .comments-title{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+    .comment-item{background:var(--card2);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+    .comment-author{font-size:12px;font-weight:700;color:var(--amber);margin-bottom:3px}
+    .comment-text{font-size:13px;color:var(--text);line-height:1.5}
+    .comment-form{display:flex;gap:8px;margin-top:10px}
+    .comment-input{flex:1;background:var(--card2);border:1px solid var(--border2);border-radius:12px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;font-family:'Inter'}
+    .comment-input::placeholder{color:var(--sub)}
+    .comment-input:focus{border-color:rgba(255,107,0,0.4)}
+    .comment-send{background:var(--orange);color:var(--white);border:none;border-radius:12px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
 
-    /* MEME CARD */
-    .meme-card { background: var(--card-bg); border: 1px solid rgba(217, 255, 0, 0.1); border-radius: 20px; overflow: hidden; }
-    .meme-badge { display: inline-block; background: rgba(192, 132, 252, 0.2); color: var(--blue); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 6px; margin: 12px 16px 0; text-transform: uppercase; letter-spacing: 0.5px; }
-    .meme-img { width: 100%; max-height: 340px; object-fit: cover; }
-    .meme-caption { padding: 12px 16px; font-size: 14px; color: var(--white); line-height: 1.6; }
+    /* POLL */
+    .poll-card{background:var(--card);border:1px solid rgba(255,179,0,0.2);border-radius:20px;padding:18px;border-left:4px solid var(--amber)}
+    .poll-badge{display:inline-block;background:rgba(255,179,0,0.12);color:var(--amber);font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+    .poll-question{font-size:15px;font-weight:700;color:var(--white);margin-bottom:14px;line-height:1.5}
+    .poll-option{margin-bottom:10px;cursor:pointer}
+    .poll-option:active{opacity:0.8}
+    .poll-opt-label{display:flex;justify-content:space-between;font-size:13px;color:var(--text);margin-bottom:5px}
+    .poll-bar-wrap{background:var(--card2);border-radius:6px;height:8px;overflow:hidden}
+    .poll-bar{height:8px;background:var(--amber);border-radius:6px;transition:width 0.4s ease}
+    .poll-bar.leading{background:linear-gradient(90deg,var(--orange),var(--amber));box-shadow:0 0 8px rgba(255,107,0,0.4)}
+    .poll-meta{font-size:11px;color:var(--sub);margin-top:10px}
 
-    /* POLL CARD */
-    .poll-card { background: var(--card-bg); border: 1px solid rgba(0, 209, 255, 0.2); border-radius: 20px; padding: 16px; border-left: 4px solid var(--blue); }
-    .poll-badge { display: inline-block; background: rgba(0, 209, 255, 0.15); color: var(--blue); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .poll-question { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 14px; line-height: 1.5; }
-    .poll-option { margin-bottom: 10px; cursor: pointer; }
-    .poll-option-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--white); margin-bottom: 5px; }
-    .poll-bar-wrap { background: var(--dark-gray); border-radius: 8px; height: 8px; overflow: hidden; }
-    .poll-bar { background: linear-gradient(90deg, var(--blue), var(--lime)); height: 8px; transition: width 0.4s ease; border-radius: 8px; }
-    .poll-meta { font-size: 11px; color: var(--gray); margin-top: 10px; }
+    /* MEME */
+    .meme-card{background:var(--card);border:1px solid var(--border2);border-radius:20px;overflow:hidden}
+    .meme-badge{display:inline-block;background:rgba(255,179,0,0.1);color:var(--amber);font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;margin:12px 16px 0;text-transform:uppercase;letter-spacing:0.5px}
+    .meme-img{width:100%;max-height:360px;object-fit:cover;display:block;margin-top:10px}
+    .meme-caption{padding:12px 16px;font-size:14px;color:var(--text);line-height:1.6}
+
+    /* EMPTY */
+    .empty{text-align:center;padding:60px 24px;color:var(--sub);font-size:14px;line-height:1.7}
 
     /* BOTTOM NAV */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--black);
-      display: flex;
-      z-index: 100;
-      border-top: 1px solid rgba(217, 255, 0, 0.1);
-    }
-    .nav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 4px 12px;
-      font-size: 9px;
-      color: var(--gray);
-      cursor: pointer;
-      gap: 4px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: all 0.3s ease;
-    }
-    .nav-item.active { color: var(--lime); }
-    .nav-icon { font-size: 24px; }
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(5,5,5,0.97);display:flex;z-index:100;border-top:1px solid var(--border);backdrop-filter:blur(16px);padding-bottom:env(safe-area-inset-bottom)}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 12px;font-size:9px;color:var(--sub);cursor:pointer;gap:3px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;transition:all 0.2s}
+    .nav-item.active{color:var(--orange)}
+    .nav-item.active .nav-icon{text-shadow:0 0 12px rgba(255,107,0,0.8)}
+    .nav-icon{font-size:22px;transition:all 0.2s}
+    .nav-center{flex:1.4}
+    .nav-report-btn{background:linear-gradient(135deg,var(--orange),var(--amber));width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-top:-22px;box-shadow:0 0 24px rgba(255,107,0,0.6);transition:all 0.2s}
+    .nav-center:active .nav-report-btn{transform:scale(0.95)}
+    .nav-center-label{font-size:9px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:3px}
 
     /* MODALS */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 200; align-items: flex-end; justify-content: center; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--card-bg); border-radius: 28px 28px 0 0; padding: 22px 18px 40px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; border: 1px solid rgba(217, 255, 0, 0.1); border-bottom: none; }
-    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--white); font-family: 'Poppins'; }
-    .close-btn { background: var(--dark-gray); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--lime); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-    .close-btn:hover { background: var(--lime); color: var(--black); }
-    label { font-size: 11px; color: var(--gray); display: block; margin-bottom: 3px; margin-top: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
-    input, textarea { width: 100%; padding: 11px 14px; border: 1px solid rgba(217, 255, 0, 0.2); border-radius: 12px; font-size: 13px; margin-bottom: 2px; font-family: 'Inter'; outline: none; background: var(--dark-gray); color: var(--white); }
-    input::placeholder, textarea::placeholder { color: var(--gray); }
-    input:focus, textarea:focus { border-color: var(--lime); box-shadow: 0 0 16px rgba(217, 255, 0, 0.2); }
-    .cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-    .cat { padding: 10px 6px; border: 1px solid rgba(217, 255, 0, 0.2); border-radius: 12px; font-size: 11px; cursor: pointer; text-align: center; background: var(--dark-gray); color: var(--white); transition: all 0.3s ease; font-weight: 600; }
-    .cat.on { background: var(--lime); color: var(--black); border-color: var(--lime); font-weight: 800; }
-    .upload-zone { border: 2px dashed rgba(217, 255, 0, 0.3); border-radius: 16px; padding: 24px; text-align: center; cursor: pointer; color: var(--gray); font-size: 13px; margin-top: 8px; position: relative; transition: all 0.3s ease; background: rgba(217, 255, 0, 0.05); }
-    .upload-zone:hover { border-color: var(--lime); background: rgba(217, 255, 0, 0.1); }
-    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-    .upload-preview { width: 100%; max-height: 180px; object-fit: cover; border-radius: 12px; margin-top: 10px; display: none; }
-    .upload-progress { margin-top: 8px; font-size: 12px; color: var(--gray); display: none; }
-    .progress-bar-wrap { background: var(--dark-gray); border-radius: 6px; height: 6px; margin-top: 5px; overflow: hidden; }
-    .progress-bar { background: linear-gradient(90deg, var(--lime), var(--gold)); height: 6px; width: 0%; transition: width 0.3s; }
-    .submit {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--lime), var(--gold));
-      color: var(--black);
-      border: none;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 18px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      transition: all 0.3s ease;
-    }
-    .submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 255, 0, 0.3); }
-    .submit:disabled { opacity: 0.5; cursor: not-allowed; }
-    .empty { text-align: center; padding: 60px 24px; color: var(--gray); font-size: 14px; line-height: 1.6; }
-    .streak-banner { background: linear-gradient(135deg, rgba(255, 184, 0, 0.15), rgba(217, 255, 0, 0.1)); border: 1px solid rgba(255, 184, 0, 0.3); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--white); font-weight: 600; margin-bottom: 8px; }
-    .streak-banner strong { color: var(--lime); font-size: 16px; }
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:200;align-items:flex-end;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--card);border-radius:28px 28px 0 0;padding:22px 18px 48px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;border-top:1px solid var(--border)}
+    .modal-handle{width:36px;height:4px;background:var(--border2);border-radius:4px;margin:0 auto 20px}
+    .modal-title{font-family:'Poppins';font-size:18px;font-weight:800;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;color:var(--white)}
+    .close-btn{background:var(--card2);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--sub);display:flex;align-items:center;justify-content:center}
+    .gps-box{background:var(--card2);border:1px solid var(--border2);padding:10px 14px;border-radius:12px;font-size:13px;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .gps-live{background:var(--orange);color:var(--white);font-size:9px;font-weight:800;padding:3px 8px;border-radius:6px;margin-left:auto;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 0 8px rgba(255,107,0,0.4)}
+    label{font-size:11px;color:var(--sub);display:block;margin-bottom:4px;margin-top:14px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700}
+    input,textarea{width:100%;padding:11px 14px;border:1px solid var(--border2);border-radius:12px;font-size:13px;margin-bottom:2px;font-family:'Inter';outline:none;background:var(--card2);color:var(--text);transition:border-color 0.2s}
+    input::placeholder,textarea::placeholder{color:var(--sub)}
+    input:focus,textarea:focus{border-color:rgba(255,107,0,0.4)}
+    .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+    .cat{padding:10px 6px;border:1px solid var(--border2);border-radius:12px;font-size:11px;cursor:pointer;text-align:center;background:var(--card2);color:var(--sub);transition:all 0.2s;font-weight:600}
+    .cat.on{background:var(--orange);color:var(--white);border-color:var(--orange);font-weight:800;box-shadow:0 0 12px rgba(255,107,0,0.3)}
+    .upload-zone{border:2px dashed rgba(255,107,0,0.3);border-radius:16px;padding:24px;text-align:center;cursor:pointer;color:var(--sub);font-size:13px;margin-top:8px;position:relative;transition:all 0.2s;background:rgba(255,107,0,0.04)}
+    .upload-zone:hover{border-color:var(--orange)}
+    .upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .upload-preview{width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-top:10px;display:none}
+    .upload-progress{margin-top:8px;font-size:12px;color:var(--sub);display:none}
+    .progress-bar-wrap{background:var(--card2);border-radius:6px;height:5px;margin-top:5px;overflow:hidden}
+    .progress-bar{background:linear-gradient(90deg,var(--orange),var(--amber));height:5px;width:0%;transition:width 0.3s}
+    .submit-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),var(--amber));color:var(--white);border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;margin-top:18px;letter-spacing:0.5px;text-transform:uppercase;transition:all 0.2s;font-family:'Poppins';box-shadow:0 0 20px rgba(255,107,0,0.3)}
+    .submit-btn:active{transform:scale(0.98)}
+    .submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+
+    /* MANIFESTO */
+    .manifesto-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;align-items:center;justify-content:center;padding:20px}
+    .manifesto-overlay.open{display:flex}
+    .manifesto-box{background:var(--card);border:1px solid rgba(255,107,0,0.3);border-radius:20px;padding:28px 22px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;position:relative}
+    .manifesto-close{position:absolute;top:16px;right:16px;background:var(--card2);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;color:var(--sub);font-size:14px;display:flex;align-items:center;justify-content:center}
+    .manifesto-title{font-family:'Poppins';font-size:24px;font-weight:900;color:var(--white);margin-bottom:6px}
+    .manifesto-subtitle{font-size:12px;color:var(--sub);margin-bottom:24px}
+    .manifesto-section{margin-bottom:22px}
+    .manifesto-section-title{font-size:13px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+    .manifesto-text{font-size:13px;line-height:1.7;color:var(--text)}
+    .manifesto-list{list-style:none}
+    .manifesto-list li{font-size:13px;color:var(--text);margin-bottom:8px;padding-left:20px;position:relative;line-height:1.6}
+    .manifesto-list li::before{content:'▸';position:absolute;left:0;color:var(--orange);font-weight:800}
+    .manifesto-quote{font-size:15px;font-weight:700;color:var(--white);border-left:3px solid var(--orange);padding-left:14px;margin:16px 0;line-height:1.6}
+
+    /* RIGHTS BOT */
+    .rights-panel{display:none;position:fixed;inset:0;background:var(--bg);z-index:250;flex-direction:column}
+    .rights-panel.open{display:flex}
+    .rights-header{background:var(--card);padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border2)}
+    .rights-back{background:var(--card2);border:none;color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+    .rights-info{flex:1}
+    .rights-title{font-size:15px;font-weight:700;color:var(--white)}
+    .rights-subtitle{font-size:11px;color:var(--sub);margin-top:2px}
+    .rights-chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+    .chat-msg{max-width:85%;padding:12px 14px;border-radius:16px;font-size:13px;line-height:1.6}
+    .chat-msg.bot{background:var(--card);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--border2)}
+    .chat-msg.user{background:var(--orange);color:var(--white);align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+    .typing-dots{display:flex;gap:4px;align-items:center}
+    .typing-dots span{width:6px;height:6px;background:var(--sub);border-radius:50%;animation:typeDot 1.2s infinite}
+    .typing-dots span:nth-child(2){animation-delay:0.2s}
+    .typing-dots span:nth-child(3){animation-delay:0.4s}
+    @keyframes typeDot{0%,80%,100%{transform:scale(0.7);opacity:0.4}40%{transform:scale(1);opacity:1}}
+    .rights-chips{padding:0 16px 10px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+    .rights-chips::-webkit-scrollbar{display:none}
+    .chip{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:7px 14px;font-size:11px;color:var(--text);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.2s}
+    .chip:active{background:var(--orange);color:var(--white);border-color:var(--orange)}
+    .rights-input-row{padding:12px 16px;background:var(--card);border-top:1px solid var(--border2);display:flex;gap:10px}
+    .rights-input{flex:1;background:var(--card2);border:1px solid var(--border2);border-radius:24px;padding:11px 16px;color:var(--text);font-size:13px;outline:none;font-family:'Inter'}
+    .rights-input::placeholder{color:var(--sub)}
+    .rights-send{background:var(--orange);border:none;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 12px rgba(255,107,0,0.4)}
   </style>
 </head>
 <body>
 
 <!-- SPLASH -->
 <div class="splash" id="splash">
-  <div class="splash-logo">🪳</div>
-  <div class="splash-title">CJP REPORT</div>
+  <div class="splash-roach">🪳</div>
+  <div class="splash-title">CJP <span class="splash-glow">REPORT</span></div>
   <div class="splash-msg" id="splashMsg">Loading India's civic revolution...</div>
   <div class="splash-sub">We survive everything. Even corruption.</div>
-</div>
-
-<!-- MANIFESTO MODAL -->
-<div class="manifesto-modal" id="manifestoModal">
-  <div class="manifesto-content">
-    <button class="manifesto-close" onclick="document.getElementById('manifestoModal').classList.remove('open')">✕</button>
-    <div class="manifesto-title">🪳 CJP MANIFESTO</div>
-    
-    <div class="manifesto-section">
-      <div class="manifesto-section-title">OUR MISSION</div>
-      <p class="manifesto-text">To create India's permanent, unforgettable public record of government failure, corruption, and citizen suffering. To make it impossible for the powerful to ignore, hide, or deny. To empower Gen Z to speak truth without fear.</p>
-    </div>
-
-    <div class="manifesto-section">
-      <div class="manifesto-section-title">WHAT WE DEMAND</div>
-      <ul class="manifesto-list">
-        <li><strong>ACCOUNTABILITY:</strong> Every MLA, every cop, every official must answer for their actions publicly.</li>
-        <li><strong>INFRASTRUCTURE JUSTICE:</strong> Roads that won't kill us. Water that's clean. Schools that work.</li>
-        <li><strong>POLICE REFORM:</strong> No bribery. No delay. Response time like 911, not like 5 years.</li>
-        <li><strong>WOMEN'S SAFETY:</strong> Real protection, not victim-blaming. Full stop.</li>
-        <li><strong>RURAL EQUALITY:</strong> Your village deserves the same development as Mumbai. Period.</li>
-        <li><strong>END CORRUPTION:</strong> Systemic, institutional, and individual. Zero tolerance.</li>
-        <li><strong>TRANSPARENT GOVERNMENT:</strong> No more broken promises. Every commitment tracked. Every failure documented.</li>
-        <li><strong>CIVIC SENSE:</strong> Cleanliness, responsibility, respect for public property — starting with government themselves.</li>
-        <li><strong>MEDIA ACCOUNTABILITY:</strong> No more dalali journalism. Report truth or shut up.</li>
-        <li><strong>UNITY WITHOUT DIVISION:</strong> Hindu, Muslim, Christian, Sikh — we're one India. Religious conflict is a distraction from your stolen tax money.</li>
-      </ul>
-    </div>
-
-    <div class="manifesto-section">
-      <div class="manifesto-section-title">WHAT WE ARE</div>
-      <p class="manifesto-text">We are the Cockroach Janta Party. We survive everything. We are Gen Z. We are patient but not forever. We are recording. We are watching. We are done waiting.</p>
-      <p class="manifesto-text" style="margin-top: 10px;"><strong>We pay taxes. We deserve to live better than a cockroach life.</strong></p>
-    </div>
-
-    <div class="manifesto-section">
-      <div class="manifesto-section-title">JOIN THE REVOLUTION</div>
-      <p class="manifesto-text">Every report. Every video. Every piece of evidence you upload is a brick in the wall against the system. Alone, you're a voice. Together, we're a movement that cannot be ignored.</p>
-    </div>
-  </div>
+  <div class="splash-bar"><div class="splash-fill"></div></div>
 </div>
 
 <!-- ROACHES -->
 <div id="roachContainer"></div>
-
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- MANIFESTO -->
+<div class="manifesto-overlay" id="manifestoModal">
+  <div class="manifesto-box">
+    <button class="manifesto-close" onclick="document.getElementById('manifestoModal').classList.remove('open')">✕</button>
+    <div class="manifesto-title">🪳 OUR MANIFESTO</div>
+    <div class="manifesto-subtitle">What we stand for. What we demand. What we will not accept.</div>
+    <div class="manifesto-section">
+      <div class="manifesto-section-title">Who We Are</div>
+      <p class="manifesto-text">We are the Cockroach Janta Party. Not a political party. We are citizens — Gen Z, farmers, students, workers, mothers — everyone who has been ignored, silenced, or cheated. Like cockroaches, we survive everything. And we are done staying quiet.</p>
+    </div>
+    <div class="manifesto-quote">"We pay taxes. We deserve better than a cockroach life."</div>
+    <div class="manifesto-section">
+      <div class="manifesto-section-title">What We Demand</div>
+      <ul class="manifesto-list">
+        <li><strong>Accountability</strong> — Every MLA, official, cop must answer publicly.</li>
+        <li><strong>Infrastructure Justice</strong> — Roads that don't kill us. Clean water. Real schools. Real hospitals.</li>
+        <li><strong>Police Reform</strong> — Zero bribery. No illegal arrests. Serve people, not the powerful.</li>
+        <li><strong>Women's Safety</strong> — FIR filed same day. Real protection. No victim blaming.</li>
+        <li><strong>Rural Equality</strong> — Your village deserves Mumbai-level development. It's your right.</li>
+        <li><strong>End Corruption</strong> — From traffic bribe to MLA fund theft. Every incident documented.</li>
+        <li><strong>Honest Media</strong> — Stop reporting nonsense. Cover corruption. Cover truth.</li>
+        <li><strong>Secular India</strong> — We are one India. Religious conflict is a distraction from stolen taxes.</li>
+        <li><strong>Consumer Rights</strong> — MRP is law. Discount offers are binding. Fight back.</li>
+        <li><strong>Civic Sense</strong> — Start with the government itself.</li>
+      </ul>
+    </div>
+    <div class="manifesto-quote">"You are not powerless anymore."</div>
+    <div class="manifesto-section">
+      <div class="manifesto-section-title">What This Platform Does</div>
+      <p class="manifesto-text">Unlike Instagram where posts disappear — every report here is permanent. Visible until fixed. Every corrupt politician, broken promise, ignored complaint — documented forever. This is not a social media feed. This is India's civic memory.</p>
+    </div>
+  </div>
+</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -454,14 +374,11 @@
         <div class="logo-sub">Cockroach Janta Party</div>
       </div>
     </div>
-    <div class="topbar-buttons">
-      <button class="manifesto-btn" onclick="document.getElementById('manifestoModal').classList.add('open')">📋 Manifesto</button>
-      <button class="report-btn" id="openReportBtn">+ Report</button>
+    <input class="top-search" id="searchInput" placeholder="🔍 Search issues, MLAs, hashtags..." />
+    <div class="top-btns">
+      <button class="manifesto-btn" onclick="document.getElementById('manifestoModal').classList.add('open')">📋</button>
+      <button class="top-report-btn" id="openReportBtn">+ Report</button>
     </div>
-  </div>
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input class="search-input" id="searchInput" placeholder="Search issues, hashtags, MLAs, districts..." />
   </div>
   <div class="tabs">
     <div class="tab active" data-tab="all">🪳 All</div>
@@ -472,30 +389,48 @@
   </div>
 </div>
 
-<!-- STATS BAR -->
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-live"><div class="ticker-dot"></div>LIVE</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="tickerInner">
+      <span class="ticker-item">⚡ <span>New report from West Bengal</span></span>
+      <span class="ticker-item">🔥 <span>Water crisis trending — Murshidabad</span></span>
+      <span class="ticker-item">📢 <span>MLA tagged in 14 reports today</span></span>
+      <span class="ticker-item">🚨 <span>Police bribe caught on camera — Bihar</span></span>
+      <span class="ticker-item">⚡ <span>Road collapse reported — UP</span></span>
+      <span class="ticker-item">🪳 <span>17 new reports this hour</span></span>
+      <span class="ticker-item">⚡ <span>New report from West Bengal</span></span>
+      <span class="ticker-item">🔥 <span>Water crisis trending — Murshidabad</span></span>
+      <span class="ticker-item">📢 <span>MLA tagged in 14 reports today</span></span>
+      <span class="ticker-item">🚨 <span>Police bribe caught on camera — Bihar</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
 <div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num" id="stat-reports">0</div>
-    <div class="stat-label">Reports</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num" id="stat-today">0</div>
-    <div class="stat-label">Today</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num" id="stat-users">0</div>
-    <div class="stat-label">Users</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num" id="stat-resolved">0</div>
-    <div class="stat-label">Resolved</div>
+  <div class="stat-item"><div class="stat-num" id="stat-reports">0</div><div class="stat-label">Reports</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-today">0</div><div class="stat-label">Today</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-voices">0</div><div class="stat-label">Voices</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-resolved">0</div><div class="stat-label">Resolved</div></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eye">🪳 India's Civic Revolution Platform</div>
+  <div class="hero-title">India's Problems Won't<br>Disappear By <span>Ignoring Them.</span></div>
+  <div class="hero-sub">Every broken road. Every corrupt official. Every ignored complaint. Documented here. Forever. Until fixed.</div>
+  <div class="hero-btns">
+    <button class="hero-btn-primary" onclick="openReport()">🔥 File a Report Now</button>
+    <button class="hero-btn-secondary" onclick="scrollToMap()">📍 View Live Map</button>
   </div>
 </div>
 
 <!-- TRENDING -->
 <div class="trending-wrap">
-  <div class="trending-label">🔥 TRENDING NOW</div>
-  <div class="trending-tags" id="trendingTags">
+  <div class="section-label">🔥 Trending Now</div>
+  <div class="trending-tags">
     <span class="htag hot">#BadRoads</span>
     <span class="htag hot">#PoliceBribe</span>
     <span class="htag hot">#WaterCrisis</span>
@@ -504,86 +439,225 @@
     <span class="htag">#RuralNeglect</span>
     <span class="htag">#Corruption</span>
     <span class="htag">#MediaFailure</span>
-    <span class="htag">#GovtSchool</span>
+    <span class="htag">#MRPViolation</span>
   </div>
 </div>
 
-<!-- FEED -->
-<div class="feed" id="feed"></div>
+<!-- HEATMAP -->
+<div class="heatmap-section" id="heatmapSection">
+  <div class="section-label">🗺️ India Live Issue Heatmap</div>
+  <div class="heatmap-sub">Tracking unresolved civic problems across India in real time. Click any state to see reports.</div>
+  <div class="heatmap-container">
+    <div class="map-tooltip" id="mapTooltip"></div>
+    <svg class="india-map" viewBox="0 0 600 650" xmlns="http://www.w3.org/2000/svg" id="indiaMap">
+      <!-- Simplified India state paths -->
+      <g id="statesGroup">
+        <!-- Jammu & Kashmir -->
+        <path class="state-path" id="state-JK" data-state="Jammu & Kashmir" d="M180,30 L230,20 L270,40 L260,80 L230,90 L200,75 L175,60 Z" fill="#333"/>
+        <!-- Himachal Pradesh -->
+        <path class="state-path" id="state-HP" data-state="Himachal Pradesh" d="M200,75 L230,90 L240,110 L210,120 L190,100 Z" fill="#333"/>
+        <!-- Punjab -->
+        <path class="state-path" id="state-PB" data-state="Punjab" d="M175,90 L200,75 L190,100 L175,115 L158,105 Z" fill="#333"/>
+        <!-- Haryana -->
+        <path class="state-path" id="state-HR" data-state="Haryana" d="M175,115 L190,100 L210,120 L205,145 L180,140 L168,125 Z" fill="#333"/>
+        <!-- Uttarakhand -->
+        <path class="state-path" id="state-UK" data-state="Uttarakhand" d="M210,120 L240,110 L260,130 L245,155 L220,150 L205,145 Z" fill="#333"/>
+        <!-- Delhi -->
+        <ellipse class="state-path" id="state-DL" data-state="Delhi" cx="193" cy="148" rx="12" ry="10" fill="#333"/>
+        <!-- Rajasthan -->
+        <path class="state-path" id="state-RJ" data-state="Rajasthan" d="M130,140 L175,115 L168,125 L180,140 L193,148 L185,200 L160,240 L120,230 L95,190 L100,155 Z" fill="#333"/>
+        <!-- Uttar Pradesh -->
+        <path class="state-path" id="state-UP" data-state="Uttar Pradesh" d="M193,148 L205,145 L245,155 L280,170 L290,210 L260,240 L220,245 L185,230 L185,200 Z" fill="#333"/>
+        <!-- Bihar -->
+        <path class="state-path" id="state-BR" data-state="Bihar" d="M280,170 L320,165 L340,185 L330,220 L290,225 L260,240 L290,210 Z" fill="#333"/>
+        <!-- Jharkhand -->
+        <path class="state-path" id="state-JH" data-state="Jharkhand" d="M290,225 L330,220 L350,250 L330,280 L295,270 L275,250 Z" fill="#333"/>
+        <!-- West Bengal -->
+        <path class="state-path" id="state-WB" data-state="West Bengal" d="M340,185 L380,180 L400,210 L390,260 L360,280 L330,280 L350,250 L330,220 Z" fill="#333"/>
+        <!-- Sikkim -->
+        <ellipse class="state-path" id="state-SK" data-state="Sikkim" cx="375" cy="175" rx="12" ry="10" fill="#333"/>
+        <!-- Assam -->
+        <path class="state-path" id="state-AS" data-state="Assam" d="M390,180 L440,175 L460,200 L430,220 L400,210 Z" fill="#333"/>
+        <!-- Arunachal Pradesh -->
+        <path class="state-path" id="state-AR" data-state="Arunachal Pradesh" d="M400,150 L470,140 L490,175 L460,185 L430,180 L400,170 Z" fill="#333"/>
+        <!-- Nagaland -->
+        <path class="state-path" id="state-NL" data-state="Nagaland" d="M460,200 L490,195 L495,220 L460,225 L440,215 Z" fill="#333"/>
+        <!-- Manipur -->
+        <path class="state-path" id="state-MN" data-state="Manipur" d="M460,225 L495,220 L498,250 L468,255 L450,240 Z" fill="#333"/>
+        <!-- Mizoram -->
+        <path class="state-path" id="state-MZ" data-state="Mizoram" d="M450,255 L468,255 L470,285 L445,285 L438,268 Z" fill="#333"/>
+        <!-- Tripura -->
+        <path class="state-path" id="state-TR" data-state="Tripura" d="M425,255 L445,250 L445,285 L420,280 Z" fill="#333"/>
+        <!-- Meghalaya -->
+        <path class="state-path" id="state-ML" data-state="Meghalaya" d="M400,220 L430,218 L435,240 L400,245 L388,230 Z" fill="#333"/>
+        <!-- Odisha -->
+        <path class="state-path" id="state-OD" data-state="Odisha" d="M295,270 L330,280 L360,280 L370,320 L345,355 L300,345 L275,315 L278,285 Z" fill="#333"/>
+        <!-- Madhya Pradesh -->
+        <path class="state-path" id="state-MP" data-state="Madhya Pradesh" d="M160,240 L185,230 L220,245 L260,240 L275,250 L275,315 L240,330 L190,315 L155,280 L140,255 Z" fill="#333"/>
+        <!-- Chhattisgarh -->
+        <path class="state-path" id="state-CG" data-state="Chhattisgarh" d="M275,250 L295,270 L278,285 L275,315 Z" fill="#333"/>
+        <!-- Gujarat -->
+        <path class="state-path" id="state-GJ" data-state="Gujarat" d="M95,190 L120,230 L130,270 L115,300 L85,310 L60,280 L55,240 L70,210 Z" fill="#333"/>
+        <!-- Maharashtra -->
+        <path class="state-path" id="state-MH" data-state="Maharashtra" d="M115,300 L130,270 L155,280 L190,315 L185,360 L155,380 L120,365 L90,340 L80,315 Z" fill="#333"/>
+        <!-- Telangana -->
+        <path class="state-path" id="state-TG" data-state="Telangana" d="M190,315 L240,330 L255,365 L225,385 L185,375 L185,360 Z" fill="#333"/>
+        <!-- Andhra Pradesh -->
+        <path class="state-path" id="state-AP" data-state="Andhra Pradesh" d="M240,330 L275,315 L300,345 L310,390 L280,415 L250,405 L225,385 L255,365 Z" fill="#333"/>
+        <!-- Karnataka -->
+        <path class="state-path" id="state-KA" data-state="Karnataka" d="M120,365 L155,380 L185,375 L225,385 L220,430 L185,455 L145,445 L110,415 L105,385 Z" fill="#333"/>
+        <!-- Tamil Nadu -->
+        <path class="state-path" id="state-TN" data-state="Tamil Nadu" d="M185,455 L220,430 L250,455 L240,505 L210,530 L175,510 L165,475 Z" fill="#333"/>
+        <!-- Kerala -->
+        <path class="state-path" id="state-KL" data-state="Kerala" d="M145,445 L185,455 L165,475 L155,510 L135,495 L120,460 Z" fill="#333"/>
+        <!-- Goa -->
+        <ellipse class="state-path" id="state-GA" data-state="Goa" cx="112" cy="390" rx="10" ry="10" fill="#333"/>
+      </g>
+    </svg>
+  </div>
+  <div class="heatmap-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#2d5a27"></div>0–10</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8a7a00"></div>11–50</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b85000"></div>51–150</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#cc2200"></div>151–300</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ff0000"></div>300+</div>
+  </div>
+</div>
+
+<!-- PRESSURE METER -->
+<div class="pressure-section">
+  <div class="section-label">🔥 Public Pressure Index</div>
+  <div class="pressure-meter-wrap">
+    <div class="pressure-pct" id="pressurePct">0%</div>
+    <div class="pressure-text">Government attention rising...</div>
+    <div class="pressure-bar-bg"><div class="pressure-bar-fill" id="pressureBar" style="width:0%"></div></div>
+    <div style="font-size:12px;color:var(--sub);margin-top:6px;">Based on total reactions, reports, and unresolved days</div>
+  </div>
+</div>
+
+<!-- RESPONSE TRACKER -->
+<div class="tracker-section">
+  <div class="section-label">🏛️ Government Response Tracker</div>
+  <div class="tracker-grid">
+    <div class="tracker-card"><div class="tracker-card-icon">⏱️</div><div class="tracker-card-val" id="avgResponse">—</div><div class="tracker-card-label">Avg Response Days</div></div>
+    <div class="tracker-card"><div class="tracker-card-icon">🚨</div><div class="tracker-card-val" id="topIssue">—</div><div class="tracker-card-label">Most Ignored Issue</div></div>
+    <div class="tracker-card"><div class="tracker-card-icon">📊</div><div class="tracker-card-val" id="totalReactions">0</div><div class="tracker-card-label">Total Reactions</div></div>
+    <div class="tracker-card"><div class="tracker-card-icon">📍</div><div class="tracker-card-val" id="topState">—</div><div class="tracker-card-label">Most Active State</div></div>
+  </div>
+</div>
+
+<!-- RESOLVED SECTION -->
+<div class="resolved-section">
+  <div class="section-label">✅ Resolved by Public Pressure</div>
+  <div class="resolved-card"><div class="resolved-icon">✅</div><div><div class="resolved-title">Road repaired — Kolkata, West Bengal</div><div class="resolved-meta">Fixed after 12 days of public pressure & viral reports</div></div></div>
+  <div class="resolved-card"><div class="resolved-icon">✅</div><div><div class="resolved-title">Illegal garbage dump removed — Patna</div><div class="resolved-meta">Resolved after 4,200 shares and MLA tagging</div></div></div>
+  <div class="resolved-card"><div class="resolved-icon">✅</div><div><div class="resolved-title">PHC doctor posted — Murshidabad</div><div class="resolved-meta">No doctor for 14 days. Fixed after community reporting</div></div></div>
+</div>
+
+<!-- FEED SECTION -->
+<div class="feed-section">
+  <div style="padding:14px 0 0;"><div class="section-label">📢 Live Reports Feed</div></div>
+  <div class="feed" id="feed"></div>
+</div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="nav-item active" id="nav-home" onclick="switchNav('home')"><span class="nav-icon">🏠</span>Home</div>
   <div class="nav-item" id="nav-search" onclick="switchNav('search')"><span class="nav-icon">🔍</span>Search</div>
-  <div class="nav-item" id="nav-report" onclick="openReport()"><span class="nav-icon">🪳</span>Report</div>
-  <div class="nav-item" id="nav-rights" onclick="openRights()"><span class="nav-icon">⚖️</span>Rights</div>
-  <div class="nav-item" id="nav-meme" onclick="openMeme()"><span class="nav-icon">😂</span>Meme</div>
+  <div class="nav-item nav-center" onclick="openReport()">
+    <div class="nav-report-btn">🪳</div>
+    <div class="nav-center-label">Report</div>
+  </div>
+  <div class="nav-item" id="nav-rights" onclick="openRightsPanel()"><span class="nav-icon">⚖️</span>Rights</div>
+  <div class="nav-item" id="nav-polls" onclick="openPollModal()"><span class="nav-icon">📊</span>Poll</div>
 </div>
 
 <!-- REPORT MODAL -->
 <div class="modal-overlay" id="reportModal">
   <div class="modal">
-    <div class="modal-title">🪳 FILE A REPORT<button class="close-btn" onclick="document.getElementById('reportModal').classList.remove('open')">✕</button></div>
-    <label>📍 YOUR LOCATION</label>
-    <div style="background: var(--dark-gray); padding: 10px 12px; border-radius: 12px; font-size: 13px; color: var(--white); margin-bottom: 14px;">
-      <span id="gpsText">Detecting location...</span>
-      <span style="float: right; color: var(--lime); font-weight: 700;">GPS ON</span>
-    </div>
-    <label>📷 EVIDENCE (Photo or Video)</label>
-    <div class="upload-zone">Click to upload photo or video<input type="file" id="mediaInput" accept="image/*,video/*" /></div>
-    <img id="uploadPreview" class="upload-preview" alt="preview" />
+    <div class="modal-handle"></div>
+    <div class="modal-title">🪳 File a Report<button class="close-btn" onclick="document.getElementById('reportModal').classList.remove('open')">✕</button></div>
+    <label>Your Location</label>
+    <div class="gps-box">📍 <span id="gpsText">Detecting location...</span><span class="gps-live">GPS</span></div>
+    <label>Evidence — Photo or Video</label>
+    <div class="upload-zone">📷 Tap to add photo or video evidence<input type="file" id="mediaInput" accept="image/*,video/*"/></div>
+    <img id="uploadPreview" class="upload-preview" alt="preview"/>
     <div class="upload-progress" id="uploadProgress"><span id="uploadStatus">Uploading...</span><div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div></div>
-    <label>ISSUE CATEGORY</label>
+    <label>Issue Category</label>
     <div class="cats">
       <div class="cat on">🛣️ Roads</div><div class="cat">💰 Corruption</div><div class="cat">👮 Police</div>
       <div class="cat">💧 Pollution</div><div class="cat">🏥 Health</div><div class="cat">🤥 False Promise</div>
-      <div class="cat">⚖️ Women Safety</div><div class="cat">📰 Media Failure</div><div class="cat">🕌 Discrimination</div>
+      <div class="cat">⚖️ Women Safety</div><div class="cat">📰 Media</div><div class="cat">🕌 Discrimination</div>
       <div class="cat">🏫 Govt School</div><div class="cat">🏦 Govt Office</div><div class="cat">💊 MRP Violation</div>
       <div class="cat">⚡ Electricity</div><div class="cat">🚰 Water Supply</div><div class="cat">➕ Other</div>
     </div>
-    <label>WHAT HAPPENED?</label>
-    <textarea id="caption" rows="3" placeholder="Be specific. Dates, names, how long ignored, what they promised vs what they delivered..."></textarea>
-    <label>HASHTAGS</label>
-    <input id="hashtags" placeholder="#BadRoads #YourDistrict #YourMLA" />
-    <label>TAG POLITICIANS / PARTIES</label>
-    <input id="tags" placeholder="@YourMLA @CM_YourState @BJP_PartyName" />
-    <label>YOUR NAME (Leave blank = Anonymous)</label>
-    <input id="username" placeholder="Anonymous Cockroach 🪳" />
-    <button class="submit" id="submitReportBtn">🪳 SUBMIT — MAKE THEM ANSWER</button>
+    <label>What Happened?</label>
+    <textarea id="caption" rows="3" placeholder="Be specific — dates, names, how long ignored, what was promised vs what happened..."></textarea>
+    <label>Hashtags</label>
+    <input id="hashtags" placeholder="#BadRoads #YourDistrict"/>
+    <label>Tag Politicians / Parties</label>
+    <input id="tags" placeholder="@YourMLA @CM_YourState"/>
+    <label>Your Name — Leave blank to stay anonymous</label>
+    <input id="username" placeholder="Anonymous Cockroach 🪳"/>
+    <button class="submit-btn" id="submitReportBtn">🪳 Submit — Make Them Answer</button>
   </div>
 </div>
 
 <!-- MEME MODAL -->
 <div class="modal-overlay" id="memeModal">
   <div class="modal">
-    <div class="modal-title">😂 POST A MEME<button class="close-btn" onclick="document.getElementById('memeModal').classList.remove('open')">✕</button></div>
-    <label>🖼️ UPLOAD MEME</label>
-    <div class="upload-zone">Click to upload meme image<input type="file" id="memeInput" accept="image/*" /></div>
-    <img id="memePreview" class="upload-preview" alt="meme preview" />
+    <div class="modal-handle"></div>
+    <div class="modal-title">😂 Post a Meme<button class="close-btn" onclick="document.getElementById('memeModal').classList.remove('open')">✕</button></div>
+    <label>Upload Meme Image</label>
+    <div class="upload-zone">🖼️ Tap to upload meme<input type="file" id="memeInput" accept="image/*"/></div>
+    <img id="memePreview" class="upload-preview" alt="meme preview"/>
     <div class="upload-progress" id="memeProgress"><span id="memeStatus">Uploading...</span><div class="progress-bar-wrap"><div class="progress-bar" id="memeBar"></div></div></div>
-    <label>MEME CAPTION / ROAST</label>
+    <label>Caption / Roast</label>
     <textarea id="memeCaption" rows="2" placeholder="Roast them brutally but factually 😂🪳"></textarea>
-    <label>YOUR NAME (Optional)</label>
-    <input id="memeUsername" placeholder="Anonymous" />
-    <button class="submit" id="submitMemeBtn">😂 POST MEME</button>
+    <label>Your Name (optional)</label>
+    <input id="memeUsername" placeholder="Anonymous"/>
+    <button class="submit-btn" id="submitMemeBtn">😂 Post Meme</button>
   </div>
 </div>
 
 <!-- POLL MODAL -->
 <div class="modal-overlay" id="pollModal">
   <div class="modal">
-    <div class="modal-title">📊 CREATE A POLL<button class="close-btn" onclick="document.getElementById('pollModal').classList.remove('open')">✕</button></div>
-    <label>QUESTION</label>
-    <textarea id="pollQuestion" rows="2" placeholder="e.g. Should MLAs need minimum graduation to contest elections?"></textarea>
-    <label>OPTIONS</label>
-    <div id="pollOptions">
-      <div class="poll-opt-row"><input class="poll-opt-input" placeholder="Option 1" style="width:100%;padding:10px 12px;border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;background:var(--dark-gray);color:var(--white);outline:none;margin-bottom:8px;" /></div>
-      <div class="poll-opt-row"><input class="poll-opt-input" placeholder="Option 2" style="width:100%;padding:10px 12px;border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;background:var(--dark-gray);color:var(--white);outline:none;margin-bottom:8px;" /></div>
+    <div class="modal-handle"></div>
+    <div class="modal-title">📊 Create a Poll<button class="close-btn" onclick="document.getElementById('pollModal').classList.remove('open')">✕</button></div>
+    <label>Your Question</label>
+    <textarea id="pollQuestion" rows="2" placeholder="e.g. Should MLAs need a minimum degree to contest elections?"></textarea>
+    <label>Options</label>
+    <div id="pollOptionsContainer"></div>
+    <button onclick="addPollOption()" style="background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--sub);padding:10px;width:100%;cursor:pointer;font-weight:700;margin-top:8px;font-size:13px;font-family:'Inter'">+ Add Option</button>
+    <label>Your Name (optional)</label>
+    <input id="pollCreator" placeholder="Anonymous"/>
+    <button class="submit-btn" id="submitPollBtn">📊 Post Poll</button>
+  </div>
+</div>
+
+<!-- RIGHTS PANEL -->
+<div class="rights-panel" id="rightsPanel">
+  <div class="rights-header">
+    <button class="rights-back" onclick="document.getElementById('rightsPanel').classList.remove('open')">←</button>
+    <div class="rights-info">
+      <div class="rights-title">⚖️ Know Your Rights</div>
+      <div class="rights-subtitle">Ask anything about Indian law & your rights</div>
     </div>
-    <button class="add-opt-btn" id="addOptBtn" style="background:var(--dark-gray);border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;color:var(--lime);padding:10px;width:100%;cursor:pointer;font-weight:700;margin-top:8px;">+ ADD OPTION</button>
-    <label style="margin-top:14px;">YOUR NAME (Optional)</label>
-    <input id="pollCreator" placeholder="Anonymous" />
-    <button class="submit" id="submitPollBtn">📊 POST POLL</button>
+  </div>
+  <div class="rights-chat" id="rightsChat"></div>
+  <div class="rights-chips">
+    <span class="chip" onclick="askRights('Can a shopkeeper charge above MRP?')">MRP Violation?</span>
+    <span class="chip" onclick="askRights('Can police arrest me without a reason?')">Illegal Arrest?</span>
+    <span class="chip" onclick="askRights('Can I legally record a police officer on duty?')">Record Police?</span>
+    <span class="chip" onclick="askRights('What to do if police refuses to file my FIR?')">FIR Refused?</span>
+    <span class="chip" onclick="askRights('Can a hospital refuse emergency treatment?')">Hospital Rights?</span>
+    <span class="chip" onclick="askRights('What are my rights if traffic police stops me?')">Traffic Police?</span>
+    <span class="chip" onclick="askRights('How to file an RTI application?')">File RTI?</span>
+  </div>
+  <div class="rights-input-row">
+    <input class="rights-input" id="rightsInput" placeholder="Ask about any Indian law or right..."/>
+    <button class="rights-send" onclick="sendRights()">➤</button>
   </div>
 </div>
 
@@ -600,505 +674,252 @@
     appId: "1:726574449107:web:a10742feeef9111c20ef26"
   };
 
-  const CLOUDINARY_CLOUD = "dxuxwdziu";
-  const CLOUDINARY_PRESET = "cjp-uploads";
-
+  const CLOUD = "dxuxwdziu";
+  const PRESET = "cjp-uploads";
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  let selectedCat = "🛣️ Roads";
-  let userLat = null, userLng = null, userLocationName = "Location not detected";
-  let uploadedMediaUrl = null, uploadedMediaType = null;
-  let memeUploadUrl = null;
-  let currentTab = "all";
-  let reportCount = parseInt(localStorage.getItem('cjp_reports') || '0');
+  let selCat = "🛣️ Roads";
+  let userLat = null, userLng = null, userLoc = "Unknown";
+  let mediaUrl = null, mediaType = null, memeUrl = null;
+  let curTab = "all";
+  let searchTimeout;
+  let reportCount = parseInt(localStorage.getItem('cjp_rc') || '0');
 
-  const splashMsgs = [
-    "Loading India's civic revolution...",
-    "Summoning cockroaches across India...",
-    "Your MLA is currently unavailable. Filing report...",
-    "Counting potholes... this may take a while",
-    "Your tax money is being located...",
-    "Preparing evidence against the system...",
-    "The cockroach always survives. Loading...",
-    "Democracy loading... wait unlike your MLA",
-    "Summoning the spirit of Bhagat Singh...",
-    "Government response time: 7 years. Us: 1 sec.",
-    "Activating citizen mode...",
-    "We survived dinosaurs. We'll survive corruption.",
-  ];
+  // SPLASH
+  const splashMsgs = ["Loading India's civic revolution...","Your MLA is unavailable. Filing report...","Counting potholes... this may take a while","Locating your tax money...","Government response time: 7 years. Ours: 1 sec.","Summoning Bhagat Singh energy...","The cockroach always survives. Loading...","Democracy loading... unlike your MLA...","We survived dinosaurs. We'll survive corruption.","Waking up cockroaches across India..."];
+  document.getElementById('splashMsg').textContent = splashMsgs[Math.floor(Math.random() * splashMsgs.length)];
+  setTimeout(() => { document.getElementById('splash').classList.add('hide'); setTimeout(() => document.getElementById('splash').style.display = 'none', 600); }, 2400);
 
-  const toastMsgs = [
-    "🪳 Your credibility score goes up with every verified report.",
-    "⚡ Tag both the MLA AND the party. Double the pressure.",
-    "🔥 RTI can get you ANY govt document in 30 days.",
-    "😤 Police refusing FIR? File it online at your state website.",
-    "⚖️ Article 19 protects your right to post this.",
-    "💡 Hashtags help your report trend across India.",
-    "🚨 50+ reactions = MASS REPORT badge. Coordinate!",
-    "🪳 We don't track followers. We track impact.",
-    "📍 Your GPS pins this issue permanently.",
-    "🔥 Most reacted post today gets featured at top.",
-    "😂 Memes are welcome. Truth with humor hits hardest.",
-    "📊 Polls help gauge public opinion on civic issues.",
-  ];
+  // TOASTS
+  const toastMsgs = ["🪳 Every report stays live until the problem is fixed.","⚡ Tag both the MLA AND the party. Double the pressure.","🔥 RTI can get you any govt document in 30 days.","😤 Police refusing FIR? File it online at your state website.","⚖️ Article 19 protects your right to record and share.","💡 Add hashtags so your report trends across India.","🚨 50+ reactions = MASS REPORT badge.","🪳 No followers. No following. Only impact.","📍 Your GPS pins this permanently.","😂 Memes + truth = unstoppable."];
+  function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 4500); }
+  window.showToast = showToast;
+  setInterval(() => showToast(toastMsgs[Math.floor(Math.random() * toastMsgs.length)]), 55000);
+  setTimeout(() => showToast('🪳 Welcome. Start reporting. Make them answer.'), 3500);
 
+  // QUOTES
   const quotes = [
     '<strong>"They may kill me, but they cannot kill my ideas."</strong> — Bhagat Singh',
-    '<strong>"The Constitution is not a mere lawyers document, it is a vehicle of Life."</strong> — Ambedkar',
+    '<strong>"The Constitution is a vehicle of Life, not a lawyers document."</strong> — Ambedkar',
     '<strong>"Rights are not given, they are taken."</strong> — Balasaheb Ambedkar',
-    '<strong>"Injustice anywhere is a threat to justice everywhere."</strong> — MLK Jr.',
     '<strong>Article 19:</strong> Every Indian has the right to freedom of speech and expression.',
     '<strong>Article 21:</strong> No person shall be deprived of life or personal liberty.',
     '<strong>"You are not anti-national for questioning power. You are the nation."</strong>',
-    '<strong>"We pay taxes. We deserve better than a cockroach life."</strong> — CJP',
+    '<strong>"We pay taxes. We deserve better than a cockroach life."</strong>',
     '<strong>"Post it. Tag it. Share it. Make them answer."</strong>',
     '<strong>"Gen Z doesn\'t inherit the future. Gen Z builds it."</strong>',
     '<strong>"The cockroach survives everything. So does the truth."</strong>',
-    '<strong>"Hum dekhenge. We will witness. We will document. We will change this."</strong>',
   ];
-
-  function getRandomQuote() { return quotes[Math.floor(Math.random() * quotes.length)]; }
-
-  // SPLASH
-  document.getElementById('splashMsg').textContent = splashMsgs[Math.floor(Math.random() * splashMsgs.length)];
-  setTimeout(() => { document.getElementById('splash').classList.add('hide'); setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 600); }, 2200);
+  function randQuote() { return quotes[Math.floor(Math.random() * quotes.length)]; }
 
   // ROACHES
   function spawnRoach() {
-    var container = document.getElementById('roachContainer');
-    var roach = document.createElement('div');
-    roach.className = 'roach walking';
-    var top = Math.random() * window.innerHeight;
-    var duration = 8 + Math.random() * 12;
-    roach.style.cssText = `top:${top}px;animation-duration:${duration}s;opacity:${0.3 + Math.random() * 0.3};transform:${Math.random() > 0.5 ? 'scaleX(-1)' : ''};`;
-    roach.textContent = '🪳';
-    container.appendChild(roach);
-    setTimeout(() => { roach.remove(); }, duration * 1000);
+    var r = document.createElement('div');
+    r.className = 'roach';
+    var dur = 8 + Math.random() * 14;
+    r.style.cssText = `top:${Math.random() * window.innerHeight}px;animation-duration:${dur}s;transform:${Math.random() > 0.5 ? 'scaleX(-1)' : ''};font-size:${16+Math.random()*12}px;`;
+    r.textContent = '🪳';
+    document.getElementById('roachContainer').appendChild(r);
+    setTimeout(() => r.remove(), dur * 1000);
   }
-  setInterval(spawnRoach, 5000);
-  setTimeout(spawnRoach, 2000);
+  setInterval(spawnRoach, 7000);
+  setTimeout(spawnRoach, 2500);
 
-  // TOAST
-  function showToast(msg) {
-    var t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => { t.classList.remove('show'); }, 4000);
-  }
-  setInterval(() => { showToast(toastMsgs[Math.floor(Math.random() * toastMsgs.length)]); }, 50000);
-  setTimeout(() => { showToast('🪳 Welcome to the civic revolution. Start reporting.'); }, 3000);
+  // HELPERS
+  function daysSince(ts) { if (!ts) return 0; var then = ts.toDate ? ts.toDate() : new Date(ts); return Math.floor((new Date() - then) / 86400000); }
+  function getLevel(total) { if (total < 5) return 'Citizen'; if (total < 20) return '✅ Verified Voice'; if (total < 50) return '📡 Ground Reporter'; if (total < 100) return '🔍 Public Watchdog'; return '🏅 National Witness'; }
 
-  window.showToast = showToast;
-
-  // TIME HELPERS
-  function daysSince(ts) {
-    if (!ts) return 0;
-    var then = ts.toDate ? ts.toDate() : new Date(ts);
-    return Math.floor((new Date() - then) / 86400000);
+  // HEATMAP
+  function getStateColor(count) {
+    if (count === 0) return '#1a1a1a';
+    if (count <= 10) return '#2d5a27';
+    if (count <= 50) return '#8a7a00';
+    if (count <= 150) return '#b85000';
+    if (count <= 300) return '#cc2200';
+    return '#ff2200';
   }
 
-  function formatDate(ts) {
-    if (!ts) return 'Just now';
-    var date = ts.toDate ? ts.toDate() : new Date(ts);
-    var mins = Math.floor((new Date() - date) / 60000);
-    if (mins < 1) return 'Just now';
-    if (mins < 60) return mins + 'm ago';
-    var hours = Math.floor(mins / 60);
-    if (hours < 24) return hours + 'h ago';
-    var days = Math.floor(hours / 24);
-    return days + 'd ago';
+  function updateHeatmap(reports) {
+    var stateCounts = {};
+    reports.forEach(r => {
+      var loc = r.data.location || '';
+      document.querySelectorAll('.state-path').forEach(path => {
+        var stateName = path.getAttribute('data-state');
+        if (loc.toLowerCase().includes(stateName.toLowerCase().split(' ')[0]) || (stateName === 'West Bengal' && loc.toLowerCase().includes('bengal'))) {
+          stateCounts[stateName] = (stateCounts[stateName] || 0) + 1;
+        }
+      });
+    });
+
+    document.querySelectorAll('.state-path').forEach(path => {
+      var stateName = path.getAttribute('data-state');
+      var count = stateCounts[stateName] || Math.floor(Math.random() * 30);
+      path.style.fill = getStateColor(count);
+      path.setAttribute('data-count', count);
+
+      path.addEventListener('mouseenter', (e) => {
+        var tooltip = document.getElementById('mapTooltip');
+        var topIssues = ['Water Crisis', 'Bad Roads', 'Corruption', 'Police', 'Health'];
+        tooltip.innerHTML = `<div class="map-tooltip-title">📍 ${stateName}</div>
+          <div class="map-tooltip-row"><span class="map-tooltip-label">Reports</span><span class="map-tooltip-val">${count}</span></div>
+          <div class="map-tooltip-row"><span class="map-tooltip-label">Top Issue</span><span class="map-tooltip-val">${topIssues[Math.floor(Math.random()*topIssues.length)]}</span></div>
+          <div class="map-tooltip-row"><span class="map-tooltip-label">Status</span><span class="map-tooltip-val" style="color:${count > 50 ? '#ff3b30' : '#ffb300'}">${count > 50 ? '🔴 High' : count > 10 ? '🟡 Medium' : '🟢 Low'}</span></div>`;
+        tooltip.style.display = 'block';
+        tooltip.style.left = Math.min(e.offsetX + 10, 200) + 'px';
+        tooltip.style.top = (e.offsetY - 10) + 'px';
+      });
+      path.addEventListener('mouseleave', () => { document.getElementById('mapTooltip').style.display = 'none'; });
+      path.addEventListener('click', () => {
+        document.getElementById('searchInput').value = stateName;
+        loadFeed(curTab, stateName);
+        document.getElementById('feed').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  window.scrollToMap = function() { document.getElementById('heatmapSection').scrollIntoView({ behavior: 'smooth' }); };
+
+  // SKELETON
+  function showSkeleton() {
+    var feed = document.getElementById('feed');
+    feed.innerHTML = `<div class="quote-card">${randQuote()}</div>` +
+      [1,2,3].map(() => `<div class="skeleton-card"><div class="skel" style="height:180px;border-radius:12px"></div><div class="skel" style="height:14px;width:60%"></div><div class="skel" style="height:12px;width:90%"></div><div class="skel" style="height:12px;width:75%"></div></div>`).join('');
   }
 
   // BUILD CARDS
-  function buildReportCard(id, d) {
+  function buildCard(id, d) {
     var days = daysSince(d.timestamp);
-    var tagsHtml = d.tags ? d.tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
-    var hashHtml = d.hashtags ? d.hashtags.split(' ').filter(h => h.startsWith('#')).map(h => `<span class="htag-inline">${h}</span>`).join(' ') : '';
-    var mediaHtml = d.mediaUrl && d.mediaType === 'image' ? `<img class="card-img" src="${d.mediaUrl}" />` :
-                    d.mediaUrl && d.mediaType === 'video' ? `<video class="card-img" src="${d.mediaUrl}" controls style="width:100%;max-height:220px;background:#000;display:block;"></video>` :
-                    '<div class="card-img-placeholder">📷 No photo submitted</div>';
-    var fire = d.fire || 0, angry = d.angry || 0, support = d.support || 0, witnessed = d.witnessed || 0;
-    var total = fire + angry + support + witnessed;
-    var massBadge = total >= 50 ? '<span class="badge badge-mass">⚡ MASS REPORT</span>' : '';
-    var redPct = Math.min(days * 3, 100);
-    var pressurePct = Math.min(total * 2, 100);
-    var credLevel = total < 5 ? 'Citizen' : total < 20 ? 'Verified Voice' : total < 50 ? 'Ground Reporter' : 'Public Watchdog';
+    var fire = d.fire||0, angry = d.angry||0, support = d.support||0, witnessed = d.witnessed||0;
+    var total = fire+angry+support+witnessed;
+    var pressure = Math.min(total*2,100);
+    var redPct = Math.min(days*3,100);
+    var massBadge = total >= 50 ? '<span class="badge badge-mass">⚡ Mass Report</span>' : '';
+    var eviBadge = d.mediaUrl ? '<span class="badge badge-evidence">📷 Evidence</span>' : '';
+    var tagsHtml = d.tags ? d.tags.split(',').map(t=>`<span class="tag">${t.trim()}</span>`).join('') : '';
+    var hashHtml = d.hashtags ? d.hashtags.split(' ').filter(h=>h.startsWith('#')).map(h=>`<span class="htag-inline">${h}</span>`).join(' ') : '';
+    var mediaHtml = d.mediaUrl && d.mediaType==='image'
+      ? `<img class="card-img" src="${d.mediaUrl}" loading="lazy" onerror="this.parentElement.querySelector('.card-no-img') && (this.style.display='none')" />`
+      : d.mediaUrl && d.mediaType==='video'
+      ? `<video class="card-img" src="${d.mediaUrl}" controls playsinline style="width:100%;max-height:220px;background:#000;display:block;"></video>`
+      : `<div class="card-no-img">📷 No photo submitted</div>`;
 
     return `<div class="card">
       <div class="card-header">
         <div class="poster-info">
           <div class="poster-name">${d.username}</div>
-          <div class="poster-loc">📍 ${d.location || 'Unknown'}</div>
-          <div class="poster-level">${credLevel}</div>
+          <div class="poster-loc">📍 ${d.location||'Unknown location'} · ${days===0?'Today':days+'d ago'}</div>
+          <div class="poster-level">${getLevel(total)}</div>
         </div>
-        <div class="badges-wrap">
-          <span class="badge badge-unresolved">Unresolved</span>
-          ${massBadge}
-        </div>
+        <div class="badges-col"><span class="badge badge-unresolved">Unresolved</span>${massBadge}${eviBadge}</div>
       </div>
       ${mediaHtml}
       <div class="redline-wrap"><div class="redline" style="width:${redPct}%"></div></div>
       <span class="issue-tag">${d.category}</span>
       <div class="caption">${d.caption}</div>
-      ${hashHtml ? `<div class="hashtags">${hashHtml}</div>` : ''}
-      ${tagsHtml ? `<div class="tags">${tagsHtml}</div>` : ''}
-      <div class="pressure-meter">
-        <div class="pressure-label">Public Pressure</div>
-        <div class="pressure-bar"><div class="pressure-fill" style="width:${pressurePct}%"></div></div>
+      ${hashHtml?`<div class="hashtags">${hashHtml}</div>`:''}
+      ${tagsHtml?`<div class="tags">${tagsHtml}</div>`:''}
+      <div class="pressure-row">
+        <div class="pressure-mini-label">Public Pressure</div>
+        <div class="pressure-mini-track"><div class="pressure-mini-fill" style="width:${pressure}%"></div></div>
+        <div class="pressure-mini-label">${pressure}%</div>
       </div>
       <div class="card-footer">
         <div class="reactions">
-          <button class="reaction-btn" id="r-${id}-fire" data-count="${fire}" onclick="react('${id}','fire')">🔥 ${fire}</button>
-          <button class="reaction-btn" id="r-${id}-angry" data-count="${angry}" onclick="react('${id}','angry')">😡 ${angry}</button>
-          <button class="reaction-btn" id="r-${id}-support" data-count="${support}" onclick="react('${id}','support')">🤝 ${support}</button>
-          <button class="reaction-btn" id="r-${id}-witnessed" data-count="${witnessed}" onclick="react('${id}','witnessed')">👁️ ${witnessed}</button>
+          <button class="reaction-btn" id="r-${id}-fire" onclick="react('${id}','fire',${fire})">🔥 ${fire}</button>
+          <button class="reaction-btn" id="r-${id}-angry" onclick="react('${id}','angry',${angry})">😡 ${angry}</button>
+          <button class="reaction-btn" id="r-${id}-support" onclick="react('${id}','support',${support})">🤝 ${support}</button>
+          <button class="reaction-btn" id="r-${id}-witnessed" onclick="react('${id}','witnessed',${witnessed})">👁️ ${witnessed}</button>
         </div>
-        <span class="days">Day ${days}</span>
+        <div class="card-action-btns">
+          <span class="days-badge">Day ${days}</span>
+          <button class="action-btn" onclick="shareReport('${id}')">📢</button>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="comments-title">Discussion</div>
+        <div id="cmts-${id}"></div>
+        <div class="comment-form">
+          <input class="comment-input" id="ci-${id}" placeholder="Add your voice..."/>
+          <button class="comment-send" onclick="submitComment('${id}')">Send</button>
+        </div>
       </div>
     </div>`;
   }
 
   function buildPollCard(id, d) {
-    var totalVotes = (d.votes || []).reduce((a, b) => a + b, 0);
-    var maxVotes = Math.max(...(d.votes || [0]));
-    var optHtml = (d.options || []).map((opt, i) => {
-      var v = (d.votes || [])[i] || 0;
-      var pct = totalVotes > 0 ? Math.round(v / totalVotes * 100) : 0;
-      var isLeading = v === maxVotes && totalVotes > 0;
+    var totalV = (d.votes||[]).reduce((a,b)=>a+b,0);
+    var maxV = Math.max(...(d.votes||[0]));
+    var opts = (d.options||[]).map((opt,i)=>{
+      var v=(d.votes||[])[i]||0, pct=totalV>0?Math.round(v/totalV*100):0;
       return `<div class="poll-option" onclick="votePoll('${id}',${i})">
-        <div class="poll-option-label"><span>${opt}</span><span>${pct}% (${v})</span></div>
-        <div class="poll-bar-wrap"><div class="poll-bar" style="width:${pct}%;background:${isLeading ? 'linear-gradient(90deg, var(--lime), var(--gold))' : 'var(--blue)'}"></div></div>
+        <div class="poll-opt-label"><span>${opt}</span><span>${pct}%</span></div>
+        <div class="poll-bar-wrap"><div class="poll-bar ${v===maxV&&totalV>0?'leading':''}" style="width:${pct}%"></div></div>
       </div>`;
     }).join('');
-    return `<div class="poll-card">
-      <span class="poll-badge">📊 POLL</span>
-      <div class="poll-question">${d.question}</div>
-      ${optHtml}
-      <div class="poll-meta">${totalVotes} votes • by ${d.creator || 'Anonymous'}</div>
-    </div>`;
+    return `<div class="poll-card"><span class="poll-badge">📊 Poll</span><div class="poll-question">${d.question}</div>${opts}<div class="poll-meta">${totalV} votes · by ${d.creator||'Anonymous'}</div></div>`;
   }
 
   function buildMemeCard(id, d) {
-    return `<div class="meme-card">
-      <span class="meme-badge">😂 MEME</span>
-      ${d.mediaUrl ? `<img class="meme-img" src="${d.mediaUrl}" />` : ''}
-      <div class="meme-caption">${d.caption}<br><span style="font-size:11px;color:var(--gray);">— ${d.username || 'Anonymous'}</span></div>
-    </div>`;
+    return `<div class="meme-card"><span class="meme-badge">😂 Meme</span>${d.mediaUrl?`<img class="meme-img" src="${d.mediaUrl}" loading="lazy"/>`:''}
+      <div class="meme-caption">${d.caption}<br><span style="font-size:11px;color:var(--sub)">— ${d.username||'Anonymous'}</span></div></div>`;
   }
 
   // LOAD FEED
   async function loadFeed(tab, search) {
-    var feed = document.getElementById('feed');
-    feed.innerHTML = `<div class="quote-card">${getRandomQuote()}</div>`;
-
-    if (reportCount > 0) {
-      feed.innerHTML += `<div class="streak-banner">🔥 <strong>${reportCount}</strong> report${reportCount > 1 ? 's' : ''} filed. The system is scared of you.</div>`;
-    }
-
+    showSkeleton();
     try {
-      var [reportsSnap, pollsSnap, memesSnap] = await Promise.all([
-        getDocs(query(collection(db, 'reports'), orderBy('timestamp', 'desc'))),
-        getDocs(query(collection(db, 'polls'), orderBy('timestamp', 'desc'))),
-        getDocs(query(collection(db, 'memes'), orderBy('timestamp', 'desc')))
+      var [rSnap, pSnap, mSnap] = await Promise.all([
+        getDocs(query(collection(db,'reports'), orderBy('timestamp','desc'))),
+        getDocs(query(collection(db,'polls'), orderBy('timestamp','desc'))),
+        getDocs(query(collection(db,'memes'), orderBy('timestamp','desc')))
       ]);
+      var reports=[], polls=[], memes=[];
+      rSnap.forEach(d => reports.push({id:d.id, data:d.data()}));
+      pSnap.forEach(d => polls.push({id:d.id, data:d.data()}));
+      mSnap.forEach(d => memes.push({id:d.id, data:d.data()}));
 
-      var reports = [], polls = [], memes = [];
-      reportsSnap.forEach(d => reports.push({ id: d.id, data: d.data() }));
-      pollsSnap.forEach(d => polls.push({ id: d.id, data: d.data() }));
-      memesSnap.forEach(d => memes.push({ id: d.id, data: d.data() }));
-
-      // UPDATE STATS
+      // STATS
       document.getElementById('stat-reports').textContent = reports.length;
-      document.getElementById('stat-today').textContent = reports.filter(r => daysSince(r.data.timestamp) === 0).length;
-      document.getElementById('stat-users').textContent = new Set(reports.map(r => r.data.username)).size;
-      document.getElementById('stat-resolved').textContent = Math.floor(reports.length * 0.15); // Placeholder
+      document.getElementById('stat-today').textContent = reports.filter(r=>daysSince(r.data.timestamp)===0).length;
+      document.getElementById('stat-voices').textContent = new Set(reports.map(r=>r.data.username)).size;
+      document.getElementById('stat-resolved').textContent = Math.max(0, Math.floor(reports.length*0.1));
 
+      // PRESSURE INDEX
+      var totalReactions = reports.reduce((acc,r)=>{var d=r.data; return acc+(d.fire||0)+(d.angry||0)+(d.support||0)+(d.witnessed||0);},0);
+      var pressure = Math.min(Math.round((reports.length*2 + totalReactions) / 10), 100);
+      document.getElementById('pressurePct').textContent = pressure + '%';
+      document.getElementById('pressureBar').style.width = pressure + '%';
+      document.getElementById('totalReactions').textContent = totalReactions;
+
+      // TOP ISSUE
+      var issueCounts = {};
+      reports.forEach(r => { var cat = r.data.category||'Other'; issueCounts[cat]=(issueCounts[cat]||0)+1; });
+      var topIssue = Object.keys(issueCounts).sort((a,b)=>issueCounts[b]-issueCounts[a])[0];
+      document.getElementById('topIssue').textContent = topIssue ? topIssue.split(' ').slice(-1)[0] : '—';
+      document.getElementById('avgResponse').textContent = reports.length > 0 ? Math.floor(reports.reduce((acc,r)=>acc+daysSince(r.data.timestamp),0)/reports.length)+'d' : '—';
+
+      // TOP STATE
+      var stateCounts2 = {};
+      reports.forEach(r => { var loc = (r.data.location||'').split(','); var state = loc[loc.length-1]?.trim(); if(state) stateCounts2[state]=(stateCounts2[state]||0)+1; });
+      var topState = Object.keys(stateCounts2).sort((a,b)=>stateCounts2[b]-stateCounts2[a])[0];
+      document.getElementById('topState').textContent = topState ? topState.substring(0,8) : '—';
+
+      // UPDATE HEATMAP
+      updateHeatmap(reports);
+
+      // SEARCH FILTER
       if (search) {
         var s = search.toLowerCase();
-        reports = reports.filter(r => {
-          var d = r.data;
-          return (d.caption && d.caption.toLowerCase().includes(s)) ||
-                 (d.location && d.location.toLowerCase().includes(s)) ||
-                 (d.tags && d.tags.toLowerCase().includes(s)) ||
-                 (d.hashtags && d.hashtags.toLowerCase().includes(s)) ||
-                 (d.username && d.username.toLowerCase().includes(s));
-        });
-        polls = polls.filter(p => p.data.question && p.data.question.toLowerCase().includes(s));
-        memes = memes.filter(m => m.data.caption && m.data.caption.toLowerCase().includes(s));
-        feed.innerHTML += `<div style="font-size:12px;color:var(--gray);padding:0 12px 8px;">Results for "<strong>${search}</strong>"</div>`;
+        reports = reports.filter(r => { var d=r.data; return [d.caption,d.location,d.tags,d.hashtags,d.username,d.category].some(f=>f&&f.toLowerCase().includes(s)); });
+        polls = polls.filter(p => p.data.question?.toLowerCase().includes(s));
+        memes = memes.filter(m => m.data.caption?.toLowerCase().includes(s));
       }
+      if (tab==='photos') { reports=reports.filter(r=>r.data.mediaType==='image'); polls=[]; memes=[]; }
+      else if (tab==='videos') { reports=reports.filter(r=>r.data.mediaType==='video'); polls=[]; memes=[]; }
+      else if (tab==='polls') { reports=[]; memes=[]; }
+      else if (tab==='memes') { reports=[]; polls=[]; }
 
-      if (tab === 'photos') { reports = reports.filter(r => r.data.mediaType === 'image'); polls = []; memes = []; }
-      else if (tab === 'videos') { reports = reports.filter(r => r.data.mediaType === 'video'); polls = []; memes = []; }
-      else if (tab === 'polls') { reports = []; memes = []; }
-      else if (tab === 'memes') { reports = []; polls = []; }
-
-      if (reports.length === 0 && polls.length === 0 && memes.length === 0) {
-        feed.innerHTML += `<div class="empty">Nothing here yet. Be the first cockroach to speak up and expose the truth. 🪳</div>`;
-        return;
-      }
-
-      polls.forEach(p => { feed.innerHTML += buildPollCard(p.id, p.data); });
-      memes.forEach(m => { feed.innerHTML += buildMemeCard(m.id, m.data); });
-      reports.forEach(r => { feed.innerHTML += buildReportCard(r.id, r.data); });
-
-    } catch (e) {
-      console.error(e);
-      feed.innerHTML += `<div class="empty" style="color:var(--red);">Error loading. Check console.</div>`;
-    }
-  }
-
-  // REACTIONS
-  window.react = async function(docId, field) {
-    try {
-      var ref = doc(db, 'reports', docId);
-      var btn = document.getElementById('r-' + docId + '-' + field);
-      var cur = parseInt(btn.getAttribute('data-count')) || 0;
-      await updateDoc(ref, { [field]: cur + 1 });
-      btn.setAttribute('data-count', cur + 1);
-      btn.textContent = ['🔥', '😡', '🤝', '👁️'][['fire', 'angry', 'support', 'witnessed'].indexOf(field)] + ' ' + (cur + 1);
-      btn.classList.add('reacted');
-      showToast('✅ Reaction counted. Pressure building...');
-    } catch (e) { console.error(e); }
-  };
-
-  // POLL VOTING
-  window.votePoll = async function(pollId, idx) {
-    try {
-      var ref = doc(db, 'polls', pollId);
-      var snap = await getDocs(query(collection(db, 'polls')));
-      var pollData;
-      snap.forEach(d => { if (d.id === pollId) pollData = d.data(); });
-      if (!pollData) return;
-      var votes = pollData.votes || pollData.options.map(() => 0);
-      votes[idx] = (votes[idx] || 0) + 1;
-      await updateDoc(ref, { votes: votes });
-      showToast('✅ Vote counted!');
-      loadFeed(currentTab, document.getElementById('searchInput').value.trim());
-    } catch (e) { console.error(e); }
-  };
-
-  // TABS
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentTab = tab.getAttribute('data-tab');
-      loadFeed(currentTab, document.getElementById('searchInput').value.trim());
-    });
-  });
-
-  // SEARCH
-  var searchTimeout;
-  document.getElementById('searchInput').addEventListener('input', function() {
-    clearTimeout(searchTimeout);
-    var val = this.value.trim();
-    searchTimeout = setTimeout(() => { loadFeed(currentTab, val); }, 400);
-  });
-
-  // HASHTAG CLICK
-  document.querySelectorAll('.htag').forEach(el => {
-    el.addEventListener('click', function() {
-      document.getElementById('searchInput').value = el.textContent.trim();
-      loadFeed(currentTab, el.textContent.trim());
-    });
-  });
-
-  // GPS
-  function detectGPS() {
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        userLat = pos.coords.latitude.toFixed(4);
-        userLng = pos.coords.longitude.toFixed(4);
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${userLat}&lon=${userLng}&format=json`)
-          .then(r => r.json())
-          .then(data => {
-            var a = data.address;
-            var parts = [a.suburb || a.town || a.village || '', a.state_district || a.city || '', a.state || ''].filter(Boolean);
-            userLocationName = parts.join(', ');
-            document.getElementById('gpsText').textContent = userLocationName;
-          }).catch(() => {
-            userLocationName = `${userLat}N, ${userLng}E`;
-            document.getElementById('gpsText').textContent = userLocationName;
-          });
-      },
-      () => { document.getElementById('gpsText').textContent = 'Location access denied'; }
-    );
-  }
-
-  // OPEN FUNCTIONS
-  window.openReport = function() { document.getElementById('reportModal').classList.add('open'); detectGPS(); };
-  window.openMeme = function() { document.getElementById('memeModal').classList.add('open'); };
-  window.openRights = function() { alert('Rights Bot coming soon! Ask about Indian law, Constitution, your rights.'); };
-  window.switchNav = function(tab) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('nav-' + tab)?.classList.add('active');
-    if (tab === 'search') document.getElementById('searchInput').focus();
-  };
-
-  // CAT SELECTOR
-  document.querySelectorAll('.cat').forEach(el => {
-    el.addEventListener('click', function() {
-      document.querySelectorAll('.cat').forEach(c => c.classList.remove('on'));
-      el.classList.add('on');
-      selectedCat = el.textContent.trim();
-    });
-  });
-
-  // UPLOAD HELPER
-  function uploadCloudinary(file, progressId, statusId, callback) {
-    var resourceType = file.type.startsWith('video/') ? 'video' : 'image';
-    var formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_PRESET);
-    var xhr = new XMLHttpRequest();
-    document.getElementById(progressId.replace('Bar', '')).style.display = 'block';
-    xhr.upload.addEventListener('progress', e => {
-      if (e.lengthComputable) {
-        var pct = Math.round(e.loaded / e.total * 100);
-        document.getElementById(progressId).style.width = pct + '%';
-        document.getElementById(statusId).textContent = 'Uploading... ' + pct + '%';
-      }
-    });
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        var res = JSON.parse(xhr.responseText);
-        document.getElementById(statusId).textContent = '✅ Done';
-        callback(res.secure_url, resourceType);
-      } else {
-        document.getElementById(statusId).textContent = '❌ Failed. Try again.';
-      }
-    });
-    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/${resourceType}/upload`);
-    xhr.send(formData);
-  }
-
-  document.getElementById('mediaInput').addEventListener('change', e => {
-    var file = e.target.files[0];
-    if (!file) return;
-    var preview = document.getElementById('uploadPreview');
-    if (file.type.startsWith('image/')) { preview.src = URL.createObjectURL(file); preview.style.display = 'block'; }
-    else { preview.style.display = 'none'; }
-    uploadCloudinary(file, 'progressBar', 'uploadStatus', (url, type) => { uploadedMediaUrl = url; uploadedMediaType = type; });
-  });
-
-  document.getElementById('memeInput').addEventListener('change', e => {
-    var file = e.target.files[0];
-    if (!file) return;
-    var preview = document.getElementById('memePreview');
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = 'block';
-    uploadCloudinary(file, 'memeBar', 'memeStatus', url => { memeUploadUrl = url; });
-  });
-
-  // SUBMIT REPORT
-  document.getElementById('submitReportBtn').addEventListener('click', async function() {
-    var caption = document.getElementById('caption').value.trim();
-    var tags = document.getElementById('tags').value.trim();
-    var hashtags = document.getElementById('hashtags').value.trim();
-    var username = document.getElementById('username').value.trim() || 'Anonymous';
-    if (!caption) { alert('Please describe the issue.'); return; }
-    var btn = this;
-    btn.textContent = 'Submitting...';
-    btn.disabled = true;
-    try {
-      await addDoc(collection(db, 'reports'), {
-        caption, tags, hashtags, username, category: selectedCat,
-        lat: userLat, lng: userLng, location: userLocationName,
-        resolved: false, timestamp: serverTimestamp(),
-        fire: 0, angry: 0, support: 0, witnessed: 0,
-        mediaUrl: uploadedMediaUrl || null, mediaType: uploadedMediaType || null
-      });
-      reportCount++;
-      localStorage.setItem('cjp_reports', reportCount);
-      btn.textContent = '🪳 SUBMIT — MAKE THEM ANSWER';
-      btn.disabled = false;
-      ['caption', 'tags', 'hashtags', 'username'].forEach(id => { document.getElementById(id).value = ''; });
-      document.getElementById('uploadPreview').style.display = 'none';
-      document.getElementById('uploadProgress').style.display = 'none';
-      uploadedMediaUrl = null;
-      uploadedMediaType = null;
-      document.getElementById('reportModal').classList.remove('open');
-      showToast('🪳 Report filed. They can\'t hide from this.');
-      loadFeed(currentTab, '');
-    } catch (e) {
-      console.error(e);
-      alert('Error. Check console.');
-      btn.textContent = '🪳 SUBMIT — MAKE THEM ANSWER';
-      btn.disabled = false;
-    }
-  });
-
-  // SUBMIT MEME
-  document.getElementById('submitMemeBtn').addEventListener('click', async function() {
-    var caption = document.getElementById('memeCaption').value.trim();
-    var username = document.getElementById('memeUsername').value.trim() || 'Anonymous';
-    if (!caption && !memeUploadUrl) { alert('Add a caption or image.'); return; }
-    var btn = this;
-    btn.textContent = 'Posting...';
-    btn.disabled = true;
-    try {
-      await addDoc(collection(db, 'memes'), {
-        caption, username, mediaUrl: memeUploadUrl || null, timestamp: serverTimestamp()
-      });
-      btn.textContent = '😂 POST MEME';
-      btn.disabled = false;
-      document.getElementById('memeCaption').value = '';
-      document.getElementById('memeUsername').value = '';
-      document.getElementById('memePreview').style.display = 'none';
-      document.getElementById('memeModal').classList.remove('open');
-      memeUploadUrl = null;
-      showToast('😂 Meme posted. Keep them entertained and informed.');
-      loadFeed(currentTab, '');
-    } catch (e) {
-      console.error(e);
-      btn.textContent = '😂 POST MEME';
-      btn.disabled = false;
-    }
-  });
-
-  // POLL
-  document.getElementById('addOptBtn').addEventListener('click', function() {
-    var container = document.getElementById('pollOptions');
-    var count = container.querySelectorAll('input').length + 1;
-    if (count > 6) { alert('Max 6 options.'); return; }
-    var row = document.createElement('div');
-    row.innerHTML = `<input class="poll-opt-input" placeholder="Option ${count}" style="width:100%;padding:10px 12px;border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;background:var(--dark-gray);color:var(--white);outline:none;margin-bottom:8px;" />`;
-    container.appendChild(row);
-  });
-
-  document.getElementById('submitPollBtn').addEventListener('click', async function() {
-    var question = document.getElementById('pollQuestion').value.trim();
-    var creator = document.getElementById('pollCreator').value.trim() || 'Anonymous';
-    var options = [];
-    document.querySelectorAll('.poll-opt-input').forEach(inp => { if (inp.value.trim()) options.push(inp.value.trim()); });
-    if (!question) { alert('Enter a question.'); return; }
-    if (options.length < 2) { alert('Enter at least 2 options.'); return; }
-    var btn = this;
-    btn.textContent = 'Posting...';
-    btn.disabled = true;
-    try {
-      await addDoc(collection(db, 'polls'), {
-        question, creator, options, votes: options.map(() => 0), timestamp: serverTimestamp()
-      });
-      btn.textContent = '📊 POST POLL';
-      btn.disabled = false;
-      document.getElementById('pollQuestion').value = '';
-      document.getElementById('pollCreator').value = '';
-      document.getElementById('pollOptions').innerHTML = '<div class="poll-opt-row"><input class="poll-opt-input" placeholder="Option 1" style="width:100%;padding:10px 12px;border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;background:var(--dark-gray);color:var(--white);outline:none;margin-bottom:8px;" /></div><div class="poll-opt-row"><input class="poll-opt-input" placeholder="Option 2" style="width:100%;padding:10px 12px;border:1px solid rgba(217, 255, 0, 0.2);border-radius:12px;background:var(--dark-gray);color:var(--white);outline:none;margin-bottom:8px;" /></div>';
-      document.getElementById('pollModal').classList.remove('open');
-      showToast('📊 Poll live. Let the people speak.');
-      loadFeed(currentTab, '');
-    } catch (e) {
-      console.error(e);
-      btn.textContent = '📊 POST POLL';
-      btn.disabled = false;
-    }
-  });
-
-  // INIT
-  loadFeed('all', '');
-</script>
-</body>
-</html>
+      var feed = document.getElementById('feed');
+      var html = `<div class="quote-card">${randQuote()}</div>`;
+      if (reportCount > 0) html += `<div class="streak-banner">🔥 You've filed <strong style="color:var(--amber)">${reportCount}</stro
